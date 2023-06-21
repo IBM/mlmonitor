@@ -1,0 +1,164 @@
+{
+	"__class__": "SageMakerModelConfig",
+	"signature": {
+		"feature_columns": [
+			"CheckingStatus",
+			"LoanDuration",
+			"CreditHistory",
+			"LoanPurpose",
+			"LoanAmount",
+			"ExistingSavings",
+			"EmploymentDuration",
+			"InstallmentPercent",
+			"Sex",
+			"OthersOnLoan",
+			"CurrentResidenceDuration",
+			"OwnsProperty",
+			"Age",
+			"InstallmentPlans",
+			"Housing",
+			"ExistingCreditsCount",
+			"Job",
+			"Dependents",
+			"Telephone",
+			"ForeignWorker"
+		],
+		"class_label": "Risk",
+		"prediction_field": "predicted_label",
+		"probability_fields": ["score"],
+		"categorical_columns": [
+			"CheckingStatus",
+			"CreditHistory",
+			"LoanPurpose",
+			"ExistingSavings",
+			"EmploymentDuration",
+			"Sex",
+			"OthersOnLoan",
+			"OwnsProperty",
+			"InstallmentPlans",
+			"Housing",
+			"Job",
+			"Telephone",
+			"ForeignWorker"
+		],
+		"problem_type": "binary",
+		"data_type": "structured",
+		"description": "SCIKIT sagemaker model for credit risk assessment"
+	},
+	"datasets": {
+		"data_dir": "gcr",
+		"training_data": "german_credit_data_biased_training.csv",
+		"validation_data": "german_credit_data_biased_training.csv",
+		"test_data": "test_feedback_data_gcr.csv",
+		"fetch_data_module": "train_gcr",
+		"fetch_data_function": "fetch_dataset"
+	},
+	"aws_runtime": {
+		"train_script": "train_gcr.py",
+		"train_py_version": "py3",
+		"inference_script": "inference_aws_gcr.py",
+		"train_framework": "sklearn",
+		"train_framework_version": "1.0-1",
+		"inference_framework": "sklearn",
+		"inference_framework_version": "1.0-1",
+		"train_instance": "ml.m4.xlarge",
+		"inference_instance": "ml.m4.xlarge",
+		"inference_py_version": "py3",
+		"prefix": "gcr",
+		"job_name": "sm-gcr-scikit",
+		"serializer": "json",
+		"deserializer": "json"
+	},
+	"wml_runtime": {
+		"train_module": "train_gcr",
+		"train_method": "train_wml",
+		"inference_instance": "runtime-22.2-py3.10",
+		"inference_framework": "scikit-learn",
+		"inference_framework_version": "1.1",
+		"inference_script": "inference_aws_gcr.py"
+	},
+	"azure_runtime": {
+		"train_script": "train_gcr.py",
+		"train_py_version": "3.9",
+		"inference_script": "inference_azure_gcr.py",
+		"inference_compute": "aci",
+		"aks_cluster_name": "aks-cluster",
+		"cpu_cores": 1,
+		"memory_gb": 1,
+		"auth_enabled": false,
+		"description" : "Predict Credit Risk proba - monitored in WOS",
+		"tags" : {"data": "credit risk", "method": "sklearn"},
+		"conda_packages": ["numpy", "scikit-learn==1.0.2", "pandas==1.5.2"],
+		"pip_packages": ["ibm-aigov-facts-client==1.0.56"],
+		"inference_py_version": "3.9",
+		"train_module": "train_gcr",
+		"train_method": "train_wml"
+	},
+	"hyperparameters": {},
+	"quality_monitor": {
+		"enabled": true,
+		"parameters": {
+			"min_feedback_data_size": 10
+		},
+		"thresholds": [{
+			"metric_id": "area_under_roc",
+			"type": "lower_limit",
+			"value": 0.80
+		}]
+	},
+	"fairness_monitor": {
+		"enabled": true,
+		"parameters": {
+			"features": [{
+					"feature": "Sex",
+					"majority": ["male"],
+					"minority": ["female"],
+					"threshold": 0.95
+				},
+				{
+					"feature": "Age",
+					"majority": [
+						[26, 100]
+					],
+					"minority": [
+						[18, 25]
+					],
+					"threshold": 0.95
+				}
+			],
+			"favourable_class": [0],
+			"unfavourable_class": [1],
+			"min_records": 100
+		}
+	},
+	"drift_monitor": {
+		"enabled": true,
+		"parameters": {
+			"min_samples": 100,
+			"drift_threshold": 0.1,
+			"train_drift_model": false,
+			"enable_model_drift": true,
+			"enable_data_drift": true
+		},
+		"learn_constraints": {
+			"two_column_learner_limit": 200,
+			"categorical_unique_threshold": 0.8,
+			"user_overrides": []
+		}
+	},
+	"explain_monitor": {
+		"enabled": true
+	},
+	"mrm_monitor": {
+		"enabled": true
+	},
+	"custom_monitor": {
+		"enabled": true,
+		"names": ["sensitivity", "specificity", "gender_less40_fav_prediction_ratio"],
+		"thresholds": [0.8, 0.6, 0.6],
+		"provider_name": "Custom_Metrics_Provider_gcr",
+		"custom_monitor_name": "Custom_Monitor_credit_risk",
+		"wml_function_provider": "Custom_Metrics_Provider_Deployment_gcr"
+	},
+	"source_dir": "use_case_gcr"
+}

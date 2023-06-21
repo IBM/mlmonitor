@@ -1,0 +1,65 @@
+{
+	"__class__": "SageMakerModelConfig",
+	"signature": {
+		"feature_columns": null,
+		"class_label": null,
+		"prediction_field": "prediction",
+		"probability_fields": ["probability"],
+		"categorical_columns": null,
+		"problem_type": "multiclass",
+		"data_type": "unstructured_image",
+		"description": "Hand written digit detection CNN model using Pytorch Lightning framework"
+	},
+	"datasets": {
+		"training_data": "mnist",
+		"validation_data": "mnist",
+		"test_data": "mnist",
+		"fetch_data_function": "generate_data"
+	},
+	"aws_runtime": {
+    "train_script": "ptlt_train.py",
+    "inference_script": "ptlt_inference.py",
+    "train_framework": "pytorch",
+    "train_framework_version": "1.9.0",
+    "train_py_version": "py38",
+    "inference_framework": "pytorch",
+    "inference_framework_version": "1.9.0",
+    "inference_py_version": "py38",
+    "train_instance": "ml.c4.xlarge",
+    "inference_instance": "ml.c4.xlarge",
+    "prefix": "DEMO-mnist-mlmonitor",
+    "job_name": "sm-mnist-pytorch",
+    "serializer": "json",
+    "deserializer": "json"
+	},
+	"wml_runtime": {},
+	"hyperparameters": {
+    "batch-size": 128,
+    "epochs": 12,
+    "learning-rate": 1e-3,
+    "log-interval": 100
+	},
+	"quality_monitor": {
+    "enabled": true,
+    "parameters": {"min_feedback_data_size": 10},
+    "thresholds": [
+        {"metric_id": "accuracy", "type": "lower_limit", "lower_limit": 0.80}
+    ]
+},
+	"fairness_monitor": {
+		"enabled": false
+	},
+	"drift_monitor": {
+		"enabled": false
+	},
+	"explain_monitor": {
+		"enabled": false
+	},
+	"mrm_monitor": {
+		"enabled": false
+	},
+	"custom_monitor": {
+		"enabled": false
+	},
+	"source_dir": "use_case_mnist_ptlt"
+}

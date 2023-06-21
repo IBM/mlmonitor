@@ -1,0 +1,12 @@
+name;default_value
+BusinessSponsor;Kullback–Leibler
+ModelDeveloper;Robert E. Schapire
+ModelValidator;Leo Breiman
+Risk rating;High
+Approval date;2022/08/30
+MonitoringDesign;Online Model monitor with Watson OpenScale for data drift and model drift. Performance are also evaluated with feedback data for Precision and Recall , FPR,FNR. ground-truth data might not be available in a timely manner. Drift monitoring is preferred
+PerformanceMonitoring;hourly evaluations for data drift
+Regulatory Requirements;ASR-11-7 for US and E-23 For Canada
+ModelArchitecture;xgboost
+BusinessPurpose;This model predicts the likelihood of a customer to churn in the next 3 months
+CitedWorks;Robert E. Schapire,1999,A Brief Introduction to Boosting|Tianqi Chen, Carlos Guestrin,2016,XGBoost: A Scalable Tree Boosting System

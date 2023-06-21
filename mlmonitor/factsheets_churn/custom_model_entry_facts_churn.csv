@@ -1,0 +1,12 @@
+name,type,description,placeholder,is_array,required,hidden,readonly,default_value,label,minimum,maximum,min_length,max_length,is_searchable
+BusinessSponsor,string,BusinessSponsor,BusinessSponsor,FALSE,FALSE,FALSE,FALSE,attr1,BusinessSponsor,,,0,255,TRUE
+ModelDeveloper,string,ModelDeveloper,ModelDeveloper,FALSE,FALSE,FALSE,FALSE,,ModelDeveloper,,,0,255,TRUE
+ModelValidator,string,ModelValidator,ModelValidator,FALSE,FALSE,FALSE,FALSE,,ModelValidator,,,0,255,TRUE
+Risk rating,string,Risk rating,Risk rating,FALSE,FALSE,FALSE,FALSE,,Risk rating,,,0,255,TRUE
+Approval date,string,Approval date,Approval date,FALSE,FALSE,FALSE,FALSE,,Approval date,,,0,255,TRUE
+MonitoringDesign,string,MonitoringDesign,MonitoringDesign,FALSE,FALSE,FALSE,FALSE,,MonitoringDesign,,,0,255,FALSE
+PerformanceMonitoring,string,PerformanceMonitoring,PerformanceMonitoring,FALSE,FALSE,FALSE,FALSE,,PerformanceMonitoring,,,0,255,FALSE
+Regulatory Requirements,string,Regulatory Requirements,Regulatory Requirements,FALSE,FALSE,FALSE,FALSE,,Regulatory Requirements,,,0,255,TRUE
+ModelArchitecture,string,ModelArchitecture,ModelArchitecture,FALSE,FALSE,FALSE,FALSE,,ModelArchitecture,,,0,255,TRUE
+BusinessPurpose,string,BusinessPurpose,BusinessPurpose,FALSE,FALSE,FALSE,FALSE,,Business Purpose(s),,,0,255,TRUE
+CitedWorks,string,"If citing academic works, please include those here.","If citing academic works,please include those here.",TRUE,FALSE,FALSE,FALSE,,References: Cited Works,,,0,255,FALSE

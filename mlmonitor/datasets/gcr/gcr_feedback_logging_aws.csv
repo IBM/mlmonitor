@@ -1,0 +1,11 @@
+;CheckingStatus;LoanDuration;CreditHistory;LoanPurpose;LoanAmount;ExistingSavings;EmploymentDuration;InstallmentPercent;Sex;OthersOnLoan;CurrentResidenceDuration;OwnsProperty;Age;InstallmentPlans;Housing;ExistingCreditsCount;Job;Dependents;Telephone;ForeignWorker;Risk;transaction_id
+2947;0_to_200;16;credits_paid_to_date;vacation;5118;less_100;4_to_7;4;male;none;4;unknown;31;none;own;1;skilled;1;none;yes;0;68e51f70-7669-4b84-92c0-cff0200f5f8b
+3139;no_checking;37;prior_payments_delayed;other;7536;unknown;4_to_7;4;female;none;4;unknown;52;none;own;2;skilled;1;none;yes;1;7d8b0ee0-a54a-48ca-acbc-6b9f3cb748c3
+1169;less_0;17;credits_paid_to_date;radio_tv;2533;less_100;less_1;2;female;none;3;savings_insurance;32;none;own;1;skilled;1;none;yes;0;4f5a481f-4458-4510-a034-89ab14cb76a3
+4946;no_checking;20;outstanding_credit;car_used;4376;500_to_1000;1_to_4;3;male;none;4;car_other;46;none;own;1;skilled;1;none;yes;1;5e23346d-6e1f-40b7-88b2-e6840c415d5c
+3558;no_checking;54;outstanding_credit;education;3972;unknown;greater_7;4;female;co-applicant;4;savings_insurance;41;none;own;2;skilled;2;yes;yes;1;f865ae14-dcff-4226-bb2e-0e2ae4dbfd9d
+1854;0_to_200;24;outstanding_credit;appliances;881;100_to_500;1_to_4;2;male;none;3;car_other;36;none;own;2;skilled;1;none;yes;1;c1948c95-89ed-488c-98df-08b9de32b44b
+4436;less_0;4;credits_paid_to_date;car_used;250;less_100;1_to_4;3;female;none;3;savings_insurance;34;none;own;1;skilled;1;none;yes;0;485e17c6-dec9-4e80-9d00-035c75969bfe
+2471;no_checking;26;prior_payments_delayed;business;6202;greater_1000;4_to_7;3;male;none;4;savings_insurance;37;none;own;2;management_self-employed;1;none;yes;1;dc81a756-2d93-4801-a49b-0d0796f5e58b
+4217;less_0;29;outstanding_credit;radio_tv;1751;100_to_500;1_to_4;3;male;none;3;savings_insurance;32;none;own;2;skilled;1;none;yes;0;a7927edc-70c2-4a23-9480-28805b229ca1
+1998;no_checking;33;outstanding_credit;repairs;5717;unknown;greater_7;5;male;co-applicant;5;unknown;54;none;free;2;skilled;2;yes;yes;1;4a454a5e-07d5-4986-8e97-34c2046f44a6

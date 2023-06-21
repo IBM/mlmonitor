@@ -1,0 +1,9 @@
+# Environments
+.env
+.venv
+model_signature.json
+README.md
+__pycache__
+logs
+README.md
+.DS_Store

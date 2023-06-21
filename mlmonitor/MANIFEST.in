@@ -1,0 +1,2 @@
+include version.meta
+include custmonitor/README.md

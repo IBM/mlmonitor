@@ -1,0 +1,77 @@
+{
+	"__class__": "SageMakerModelConfig",
+	"signature": {
+		"feature_columns": null,
+		"class_label": null,
+		"prediction_field": "prediction",
+		"probability_fields": ["probability"],
+		"categorical_columns": null,
+		"problem_type": "multiclass",
+		"data_type": "unstructured_image",
+		"description": "Hand written digit detection CNN model using TF Keras framework"
+	},
+	"datasets": {
+		"data_dir": "mnist",
+		"training_data": "mnist",
+		"validation_data": "mnist",
+		"test_data": "mnist",
+		"fetch_data_module": "utils",
+		"fetch_data_function": "generate_data"
+	},
+	"aws_runtime": {
+		"train_script": "tf_cnn_train.py",
+		"inference_script": "tf_cnn_inference.py",
+		"train_framework": "tensorflow",
+		"train_framework_version": "2.8.0",
+		"train_py_version": "py39",
+		"inference_framework": "tensorflow",
+		"inference_framework_version": "2.8.0",
+		"inference_py_version": "py39",
+		"train_instance": "ml.c4.xlarge",
+		"inference_instance": "ml.c4.xlarge",
+		"prefix": "DEMO-mnist-mlmonitor",
+		"job_name": "sm-mnist-cnn-tf-keras",
+		"platform": "aws",
+		"serializer": "json",
+		"deserializer": "json"
+	},
+	"wml_runtime": {
+		"train_module": "tf_cnn_train",
+		"train_method": "train_wml",
+		"inference_instance": "tensorflow_rt22.1-py3.9",
+		"inference_framework": "tensorflow",
+		"inference_framework_version": "2.7",
+		"inference_script": "tf_cnn_inference.py"
+	},
+	"hyperparameters": {
+		"batch-size": 128,
+		"epochs": 5
+	},
+	"quality_monitor": {
+		"enabled": true,
+		"parameters": {
+			"min_feedback_data_size": 10
+		},
+		"thresholds": [{
+			"metric_id": "accuracy",
+			"type": "lower_limit",
+			"lower_limit": 0.80
+		}]
+	},
+	"fairness_monitor": {
+		"enabled": false
+	},
+	"drift_monitor": {
+		"enabled": false
+	},
+	"explain_monitor": {
+		"enabled": true
+	},
+	"mrm_monitor": {
+		"enabled": false
+	},
+	"custom_monitor": {
+		"enabled": false
+	},
+	"source_dir": "use_case_mnist_tf"
+}

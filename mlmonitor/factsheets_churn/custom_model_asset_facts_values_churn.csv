@@ -1,0 +1,6 @@
+name;default_value
+ModelPurpose;This model predicts the likelihood of a customer to churn in the next 3 months
+ModelBusinessUse;This model is used to select the customers for discounts based on the predicted outcome
+ModelTesting;Conducted in sample, out of sample testing
+CrossValidation;5-fold cross validation performed on this dataset s3://sagemaker-sample-files/datasets/tabular/synthetic/churn.txt
+OutOfSampleTesting;94% precision and 97% recall on validation dataset

@@ -1,0 +1,265 @@
+{
+	"__class__": "SageMakerModelConfig",
+	"signature": {
+		"feature_columns": [
+			"Account Length",
+			"VMail Message",
+			"Day Mins",
+			"Day Calls",
+			"Eve Mins",
+			"Eve Calls",
+			"Night Mins",
+			"Night Calls",
+			"Intl Mins",
+			"Intl Calls",
+			"CustServ Calls",
+			"State_AK",
+			"State_AL",
+			"State_AR",
+			"State_AZ",
+			"State_CA",
+			"State_CO",
+			"State_CT",
+			"State_DC",
+			"State_DE",
+			"State_FL",
+			"State_GA",
+			"State_HI",
+			"State_IA",
+			"State_ID",
+			"State_IL",
+			"State_IN",
+			"State_KS",
+			"State_KY",
+			"State_LA",
+			"State_MA",
+			"State_MD",
+			"State_ME",
+			"State_MI",
+			"State_MN",
+			"State_MO",
+			"State_MS",
+			"State_MT",
+			"State_NC",
+			"State_ND",
+			"State_NE",
+			"State_NH",
+			"State_NJ",
+			"State_NM",
+			"State_NV",
+			"State_NY",
+			"State_OH",
+			"State_OK",
+			"State_OR",
+			"State_PA",
+			"State_RI",
+			"State_SC",
+			"State_SD",
+			"State_TN",
+			"State_TX",
+			"State_UT",
+			"State_VA",
+			"State_VT",
+			"State_WA",
+			"State_WI",
+			"State_WV",
+			"State_WY",
+			"Area Code_657",
+			"Area Code_658",
+			"Area Code_659",
+			"Area Code_676",
+			"Area Code_677",
+			"Area Code_678",
+			"Area Code_686",
+			"Area Code_707",
+			"Area Code_716",
+			"Area Code_727",
+			"Area Code_736",
+			"Area Code_737",
+			"Area Code_758",
+			"Area Code_766",
+			"Area Code_776",
+			"Area Code_777",
+			"Area Code_778",
+			"Area Code_786",
+			"Area Code_787",
+			"Area Code_788",
+			"Area Code_797",
+			"Area Code_798",
+			"Area Code_806",
+			"Area Code_827",
+			"Area Code_836",
+			"Area Code_847",
+			"Area Code_848",
+			"Area Code_858",
+			"Area Code_866",
+			"Area Code_868",
+			"Area Code_876",
+			"Area Code_877",
+			"Area Code_878",
+			"Int'l Plan_no",
+			"Int'l Plan_yes",
+			"VMail Plan_no",
+			"VMail Plan_yes"
+		],
+		"class_label": "Churn?_True.",
+		"prediction_field": "predicted_label",
+		"probability_fields": [
+			"score"
+		],
+		"categorical_columns": [],
+		"problem_type": "binary",
+		"data_type": "structured",
+		"description": "XGBOOST model for customer churn classification"
+	},
+	"datasets": {
+		"data_dir": "churn",
+		"training_data": "train.csv",
+		"validation_data": "validation.csv",
+		"test_data": "feedback_logging_churn.csv",
+		"fetch_data_module": "train_cc_xg_boost",
+		"fetch_data_function": "fetch_dataset"
+	},
+	"aws_runtime": {
+		"train_script": "train_cc_xg_boost.py",
+		"inference_script": "inference_cc_sk.py",
+		"train_framework": "xgboost",
+		"train_framework_version": "1.5-1",
+		"train_py_version": "py3",
+		"inference_framework": "sklearn",
+		"inference_framework_version": "1.0-1",
+		"train_instance": "ml.m4.xlarge",
+		"inference_instance": "ml.m4.xlarge",
+		"inference_py_version": "py3",
+		"prefix": "sagemaker/DEMO-xgboost-churn",
+		"job_name": "sm-cc-xgboost",
+		"serializer": "json",
+		"deserializer": "json"
+	},
+	"wml_runtime": {
+		"train_module": "train_cc_xg_boost",
+		"train_method": "train_wml",
+		"inference_instance": "runtime-22.2-py3.10",
+		"inference_framework": "scikit-learn",
+		"inference_framework_version": "1.1",
+		"inference_script": "inference_cc_sk.py"
+	},
+	"azure_runtime": {
+		"train_script": "train_cc_xg_boost.py",
+		"train_py_version": "3.8",
+		"inference_script": "inference_cc_sk.py",
+		"inference_compute": "aci",
+		"aks_cluster_name": "aks-cluster",
+		"cpu_cores": 1,
+		"memory_gb": 1,
+		"auth_enabled": false,
+		"description" : "Customer Churn prediction - monitored in WOS",
+		"tags" : {"data": "customer churn", "method": "xgboost"},
+		"conda_packages": ["pandas==1.5.2", "boto3","seaborn", "matplotlib"],
+		"pip_packages": ["ibm-aigov-facts-client==1.0.48","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
+		"inference_py_version": "3.9",
+		"train_module": "train_cc_xg_boost",
+		"train_method": "train_wml"
+	},
+	"hyperparameters": {
+		"max_depth": 5,
+		"eta": 0.2,
+		"gamma": 4,
+		"min_child_weight": 6,
+		"subsample": 0.8,
+		"objective": "binary:logistic",
+		"num_round": 200,
+		"verbosity": 0
+	},
+	"quality_monitor": {
+		"enabled": true,
+		"parameters": {
+			"min_feedback_data_size": 10
+		},
+		"thresholds": [{
+			"metric_id": "area_under_roc",
+			"type": "lower_limit",
+			"value": 0.8
+		}]
+	},
+	"fairness_monitor": {
+		"enabled": true,
+		"parameters": {
+			"features": [{
+				"feature": "Day Mins",
+				"majority": [
+					[
+						2.501,
+						5.33
+					],
+					[
+						5.331,
+						7.936
+					],
+					[
+						7.937,
+						20
+					]
+				],
+				"minority": [
+					[
+						0.0,
+						2.5
+					]
+				],
+				"threshold": 0.95
+			}],
+			"favourable_class": [
+				0
+			],
+			"unfavourable_class": [
+				1
+			],
+			"min_records": 100
+		}
+	},
+	"drift_monitor": {
+		"enabled": true,
+		"parameters": {
+			"min_samples": 100,
+			"drift_threshold": 0.1,
+			"train_drift_model": false,
+			"enable_model_drift": true,
+			"enable_data_drift": true
+		},
+		"learn_constraints": {
+			"two_column_learner_limit": 200,
+			"categorical_unique_threshold": 0.8,
+			"user_overrides": []
+		}
+	},
+	"explain_monitor": {
+		"enabled": true
+	},
+	"mrm_monitor": {
+		"enabled": true
+	},
+	"custom_monitor": {
+		"enabled": true,
+		"names": [
+			"tp",
+			"fp",
+			"tn",
+			"fn",
+			"cost",
+			"total"
+		],
+		"thresholds": [
+			200,
+			10,
+			200,
+			10,
+			6000,
+			200
+		],
+		"provider_name": "Custom_Metrics_Provider_churn",
+		"custom_monitor_name": "Custom_Monitor_churn_mdl",
+		"wml_function_provider": "Custom_Metrics_Provider_Deployment_churn"
+	},
+	"source_dir": "use_case_churn"
+}

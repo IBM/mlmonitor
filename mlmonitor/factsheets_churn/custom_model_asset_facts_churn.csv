@@ -1,0 +1,6 @@
+name,type,placeholder,description,is_array,required,hidden,readonly,default_value,label,minimum,maximum,min_length,max_length,is_searchable,Not_needed
+ModelPurpose,string,ModelPurpose,ModelPurpose,FALSE,FALSE,FALSE,FALSE,,ModelPurpose,,,0,255,FALSE,
+ModelBusinessUse,string,ModelBusinessUse,ModelBusinessUse,FALSE,FALSE,FALSE,FALSE,,ModelBusinessUse,,,0,255,FALSE,
+ModelTesting,string,ModelTesting,ModelTesting,FALSE,FALSE,FALSE,FALSE,,ModelTesting,,,0,255,FALSE,
+CrossValidation,string,CrossValidation,CrossValidation,FALSE,FALSE,FALSE,FALSE,,CrossValidation,,,0,255,FALSE,
+OutOfSampleTesting,string,OutOfSampleTesting,OutOfSampleTesting,FALSE,FALSE,FALSE,FALSE,,OutOfSampleTesting,,,0,255,FALSE,

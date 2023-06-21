@@ -1,0 +1,8 @@
+protobuf==3.20.2
+tensorflow==2.12.0
+pygit2
+python-dotenv
+botocore
+boto3
+matplotlib
+sagemaker

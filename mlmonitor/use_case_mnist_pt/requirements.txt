@@ -1,0 +1,5 @@
+ibm-aigov-facts-client==1.0.44
+ibm_watson_machine_learning
+ibm_watson_openscale
+pygit2
+torchinfo

@@ -1,0 +1,5 @@
+# Environments
+.env
+.venv
+model_signature.json
+README.md
