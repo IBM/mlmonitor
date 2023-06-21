@@ -483,16 +483,17 @@ def get_all_scenarios(tn_mask, fp_mask, fn_mask, tp_mask, metric, target_metric_
 
 def perturb_column(
     df: pd.DataFrame,
-    col: str,
+    total_records: int,
     ratio: float,
-    operation: Callable,
-    total_records: int = 100,
+    target_column: str,
+    perturbation_fn: Callable,
 ) -> pd.DataFrame:
     """
-    takes a dataframe, column name, ratio of records to perturb (0.2 means 20% of the records will be perturbed),
-    and an operation to perform on the column.
-    It returns a new dataframe with the specified number of records randomly selected from the original dataframe having their specified columns changed according to the operation.
-
+    Takes a dataframe, column name, ratio of records to perturb
+    (0.2 means 20% of the records will be perturbed), and an operation to
+    perform on the column.It returns a new dataframe with the specified
+    number of records randomly selected from the original dataframe having
+    their specified columns changed according to the operation.
     :param df: Specify the dataframe that is being perturbed
     :param col:str: Specify the column that we want to perturb
     :param ratio:float: Determine the ratio of records that will be perturbed
@@ -500,26 +501,47 @@ def perturb_column(
     :param total_records:int Specify the number of records that will be used to generate the perturbations
     :return: A dataframe with the same number of rows as the original dataframe, but with a perturbed version of one column
     """
-    mask = random.sample(df.index.tolist(), total_records)
-    num_perturb = ratio * len(mask)
-    print(f"{num_perturb}/{df.shape[0]} perturbed samples")
-    perturb_mask = random.sample(mask, int(num_perturb))
-    final_df = df.loc[mask].copy()
-    final_df.loc[perturb_mask, col] = final_df.loc[perturb_mask, col].apply(operation)
 
-    fig, axes = plt.subplots(2, 1, figsize=(8, 8), sharey=True, sharex=True)
+    num_perturb = int(ratio * total_records)
+    mask = random.sample(df.index.tolist(), num_perturb)
+    logger.info(f"{num_perturb}/{len(df)} perturbed samples")
 
-    axes[0].hist(df.loc[:, col], color="C1", label="Original", bins="auto")
-    axes[0].legend()
-    axes[0].set(xlabel=col, ylabel="Num samples", title="Original Data")
+    df_payload = df.copy()
+    df_payload.loc[mask, target_column] = df_payload.loc[mask, target_column].apply(
+        lambda x: eval(perturbation_fn)
+    )
 
-    axes[1].hist(final_df.loc[:, col], color="C2", label="Perturbed", bins="auto")
-    axes[1].legend()
-    axes[1].set(xlabel=col, ylabel="Num samples", title="Perturbed Data")
-    plt.show()
+    return df_payload
 
-    descr_orig = df.loc[:, col].describe().rename("original dataset")
-    descr_pert = final_df.loc[:, col].describe().rename("perturbed dataset")
-    logger.info(f"Perturbed vs Original\n{pd.concat([descr_orig, descr_pert], axis=1)}")
 
-    return final_df
+def perturb_double_column(
+    df: pd.DataFrame,
+    total_records: int,
+    ratio: float,
+    source_column: str,
+    source_cond: str,
+    target_column: str,
+    perturbation_fn: Callable,
+) -> pd.DataFrame:
+
+    # Randomly sampling the DataFrame
+    payload_df = df.sample(total_records)
+
+    # From the sample, nb of records with respect to the condition
+    cond = payload_df[source_column] == source_cond
+    cond_records = len(payload_df.loc[cond])
+
+    # Defining number of perturbations based on the the records meeting the condition
+    num_perturb = int(np.ceil(ratio * cond_records))
+    perturbation_mask = random.sample(payload_df.loc[cond].index.tolist(), num_perturb)
+
+    # target_mean = payload_df[target_column].mean()
+
+    payload_df.loc[perturbation_mask, target_column] = payload_df.loc[
+        perturbation_mask, target_column
+    ].apply(
+        lambda x: eval(perturbation_fn)
+        # lambda x: eval("x + target_mean*3")
+    )
+
+    return payload_df

@@ -2,15 +2,11 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 import json
-from typing import Union
-from datetime import datetime
-import time
+from typing import Union, Optional
 from ibm_watson_openscale.supporting_classes.enums import DataSetTypes, TargetTypes
 import pandas as pd
-import pytz
 import os
 
-# import numpy as np
 from mlmonitor.src import logger, IAM_URL, WOS_URL, ENV
 from mlmonitor.src.utils.validation import validate_uuid4
 from mlmonitor.src import CATALOG_ID, MODEL_ENTRY_ID, API_KEY, DATA_ROOT
@@ -40,6 +36,7 @@ from mlmonitor.src.wos.configure_explain_monitor import configure_explain
 from mlmonitor.src.wos.cleanup_resources import delete_deployment
 from mlmonitor.src.wos.run_payload_logging import log_payload_data
 from mlmonitor.src.wos.run_feedback_logging import log_feedback_data
+from mlmonitor.src.demos.model_perturbator import ModelPerturbator
 
 
 class ModelUseCase(ABC):
@@ -724,13 +721,19 @@ class ModelUseCase(ABC):
         """
         pass
 
-    def data_drift_scenario(self, col: str = "LoanAmount", dataset_type: str = "train"):
+    def data_drift_scenario(
+        self,
+        model_perturbation: Optional[ModelPerturbator],
+        dataset_type: str = "train",
+    ):
         """
         Perform Payload logging with perturbed data to demo data drift scenario on Watson OpenScale
         :param: col:str column to be perturbed
         :param: dataset_type:str dataset to use for data drift scenario
         :return: Dictionary of model resource created
         """
+
+        # Verifications
         assert dataset_type in {"test", "train", "validation"}
         assert self.source_dir in [
             "use_case_churn",
@@ -747,35 +750,25 @@ class ModelUseCase(ABC):
             self._model_config.data_type == "structured"
         ), f"Only structured data types supported for data_drift_scenario : [{self._model_config.data_type}]"
 
-        # base_dd_scenario = np.arange(0.01, 0.18, 0.02)
-        from mlmonitor.src.demos.scenario_helpers import dd_scenario1
+        # Predefined drift scenario
+        if not model_perturbation:
+            monitor_type = "drift"
+            drift_type = "double"
 
-        base_dd_scenario = dd_scenario1
+            if drift_type == "single":
+                scenario_id = "single_column_1"
 
-        logger.info(
-            f'START DATA DRIFT SCENARIO AT: {datetime.utcnow().replace(tzinfo=pytz.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%z")}\n'
-            f"perturbed {col} feature with ratios {base_dd_scenario}"
-        )
-        # Sequentially apply different changes to imitate small or large drifts
-        # shifting data by 1%, 2%, 8%, 10%, 10%. We applied this to one feature.
-        for scenario in base_dd_scenario:
-            perturb_args = {
-                "col": col,
-                "total_records": 100,
-                "ratio": scenario,
-                "operation": lambda x: x + 20,
-            }
+            elif drift_type == "double":
+                scenario_id = "double_column_1"
 
-            self.perturb_scoring(dataset_type, **perturb_args)
-            evaluate_monitor(
-                deployment_name=self.model_endpoint, monitor_types=("drift",)
+            model_perturbation = ModelPerturbator(
+                source_dir=self.source_dir,
+                monitor_type=monitor_type,
+                scenario_id=scenario_id,
             )
 
-            time.sleep(60 * 2)
-
-        logger.info(
-            f'END DATA DRIFT SCENARIO AT: {datetime.utcnow().replace(tzinfo=pytz.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%z")}'
-        )
+        perturbation_args = model_perturbation.model_perturbation_json()
+        self.perturb_scoring(dataset_type, **perturbation_args)
 
     @abstractmethod
     def _is_endpoint_deployed(self) -> bool:
