@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
 import json
-from typing import Union, Optional
+from typing import Union
 from ibm_watson_openscale.supporting_classes.enums import DataSetTypes, TargetTypes
 import pandas as pd
 import os
@@ -723,7 +723,7 @@ class ModelUseCase(ABC):
 
     def data_drift_scenario(
         self,
-        model_perturbation: Optional[ModelPerturbator],
+        model_perturbation: ModelPerturbator=None,
         dataset_type: str = "train",
     ):
         """
@@ -753,13 +753,7 @@ class ModelUseCase(ABC):
         # Predefined drift scenario
         if not model_perturbation:
             monitor_type = "drift"
-            drift_type = "double"
-
-            if drift_type == "single":
-                scenario_id = "single_column_1"
-
-            elif drift_type == "double":
-                scenario_id = "double_column_1"
+            scenario_id = "double_column_1"
 
             model_perturbation = ModelPerturbator(
                 source_dir=self.source_dir,

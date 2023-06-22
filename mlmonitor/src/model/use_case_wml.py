@@ -453,7 +453,7 @@ class WMLModelUseCase(ModelUseCase):
     @log_as_wos_payload("wml")
     def send_perturbation(self, dataset_type="train", **kwargs):
 
-        if "source_column" in kwargs.keys():
+        if "source_column" and "source_cond" in kwargs.keys():
             return perturb_double_column(df=self._df, **kwargs)
 
         else:
