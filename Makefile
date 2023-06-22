@@ -7,7 +7,7 @@ CONFIG_FILE?=/app/base/config.json
 
 docker:
 	echo "${VERSION}" > ./version.meta
-	rm -rf ./build  && rm -rf ./dist  && python setup.py bdist_wheel && cp ./dist/mlmonitor-${VERSION}-py3-none-any.whl /tmp/mlmonitor-${VERSION}-py3-none-any.whl
+	rm -rf ./build  && rm -rf ./dist  && python setup.py bdist_wheel
 	docker build --platform linux/amd64 --no-cache -t $(REPOSITORY)/$(NAME):$(VERSION) . -f Dockerfile --build-arg VERSION=${VERSION}
 	rm -rf ./build  && rm -rf ./dist && rm -rf ./mlmonitor.egg-info
 
