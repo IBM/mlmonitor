@@ -148,7 +148,7 @@ Generate credential file and upload it as a data asset into your project.
 
 Notebook assets created in section 1.3 reads the config file (data asset) to instantiates *mlmonitor* python library
 
-### 1.3 Create a Notebook Asset from file
+### 8.3 Create a Notebook Asset from file
 
 Create a Jupyter Notebook in Watson Studio from one of this 3 `ipynb` files.
 
@@ -157,3 +157,26 @@ Create a Jupyter Notebook in Watson Studio from one of this 3 `ipynb` files.
 - [Azure notebook](./examples/mlmonitor-azure.ipynb)
 
 ![jupter notebook](./pictures/new_notebook_cp4d.png)
+
+
+## 9. Demonstrating drift monitoring capabilities with *mlmonitor*
+
+To showcase the Machine Learning monitoring capabilities of Watson OpenScale, *mlmonitor* comes with pre-defined drift scenarios. Inside each use cases, a `model_perturbation.json` file defines the different drift scenarios availale. As shown below, the `.data_drift_scenario()` method can be ran with default settings or can be modified using `ModelPerturbator` object.
+
+```
+# Use default settings
+model_uc.data_drift_scenario()
+
+# Use pre-defined scenario and changing the ratios parameters
+model_perturbation = ModelPerturbator(
+        source_dir=source_dir,
+        monitor_type='drift',
+        scenario_id='single_column_1',
+    )
+
+model_perturbation.ratios = [0.1, 0.2, 0.3, 0.1, 0.4, 0.1]
+
+model_uc.data_drift_scenario(model_perturbation)
+```
+
+*Currently only the GCR use case is supported. 

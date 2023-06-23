@@ -237,7 +237,7 @@ These directories are shipped to AWS at training or deployment time and should c
 
 ### 4.1 model signature files
 
-- Each model use case should be self-contained and include ***model_signature.json*** file following the structure
+Each model use case should be self-contained and include ***model_signature.json*** file following the structure
 
 ```json
 {
@@ -363,3 +363,59 @@ These directories are shipped to AWS at training or deployment time and should c
     "wml_function_provider": "Custom_Metrics_Provider_Deployment_churn-deploy"}
 }
 ```
+
+### 4.2 model perturbation files
+
+Similarly to ***model_signature.json***, each model use case should include ***model_perturbation.json*** file following the structure
+
+```json
+{
+    "drift": {
+        "single_column_1": {
+            "total_records": 100,
+            "ratios": [0.01, 0.05, 0.1, 0.2, 0.3],
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + 15000"
+        },
+        "single_column_2": {
+            "total_records": 100,
+            "ratios": [0.1, 0.2, 0.4, 0.8, 1.0],
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + 15000"
+        },
+        "double_column_1": {
+            "total_records": 100,
+            "ratios": [0.1, 0.2, 0.3, 0.6],
+            "source_column": "LoanPurpose",
+            "source_cond": "car_used",
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + np.mean(x)*100"
+        }
+    }
+}
+```
+
+The JSON file uses the following nommenclature: 
+
+```
+{
+    <monitor type>: {
+        <scenario ID>: {
+            <scenario parameters>: <parameters values>
+        }
+    }
+}
+```
+
+In each **scenario_id**, the following parameters can be used:
+
+* `total_records`: number of records sent to Watson OpenScale in each iteration
+* `ratios`: a list of percentages used to iterate over. In each iteration, the percentage defines the ratio of records to perturb
+* `target_column`: column where to apply the perturbation
+* `perturbation_fn`: perturbation function applied on the target column
+* `source_column`: for two-column constraints, column used to filter the data 
+* `source_condition`: for two-column constraints, filter condition for the source column
+
+Currently, there are two ways to apply drift on the payload data: single column perturbation or two-column perturbation. If `source_column` and `source_cond` are defined in the scenario, two-column perturbation will be applied. 
+
+These parameters are then used by the `ModelPerturbator` object to perturb the payload data sent to Watson OpenScale. 
