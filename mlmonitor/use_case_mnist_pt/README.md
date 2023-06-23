@@ -29,33 +29,6 @@ Our model is a simple CNN Model or Fully Connected NN model written in Pytorch.
 
 You can Always train models locally prior to run AWS training jobs by invoking [test_train.py](./test_train.py)  as follow with the right parameters to trigger [train.py](./pytorch_train.py) for Pytorch model.
 
-```shell
-User in ~/use_case_mnist_pt
-# python ./use_case_mnist_pt/test_train.py --model cnn --epochs 10
-(venv-ai-gov-rbc)
-python /use_case/test_train.py --model pytorch --epochs 2
-{'batch_size': 64, 'test_batch_size': 1000, 'epochs': 2, 'learning_rate': 0.001, 'beta_1': 0.9, 'beta_2': 0.999, 'weight_decay': 0.0001, 'seed': 1, 'hidden_size': 64, 'log_interval': 100, 'backend': None, 'model': 'pytorch', 'hosts': ['algo-1'], 'current_host': 'algo-1', 'model_dir': './ai-governance/models', 'train': './ai-governance/data/mnist', 'test': './ai-governance/data/mnist', 'num_gpus': 0}
-2022/05/24 08:14:29 INFO :  Experiment aws-sagemaker-mnist-cnn-pytorch-20220524-1214 does not exist, creating new experiment
-2022/05/24 08:14:29 INFO : Experiment successfully created with ID 1 and name aws-sagemaker-mnist-cnn-pytorch-20220524-1214
-2022/05/24 08:14:29 INFO : Manual tracing initiated successfully under run 1fe942e518344e1b92cc4d82270ad92d
-Start training ...
-Train Epoch: 1 [6400/60000 (11%)] Loss: 0.903774
-Train Epoch: 1 [51200/60000 (85%)] Loss: 0.451619
-Train Epoch: 1 [57600/60000 (96%)] Loss: 0.214894
-Test set: Average loss: 0.1020, Accuracy: 9690/10000, 96.9)
-
-Train Epoch: 2 [6400/60000 (11%)] Loss: 0.187961
-Train Epoch: 2 [51200/60000 (85%)] Loss: 0.070237
-Train Epoch: 2 [57600/60000 (96%)] Loss: 0.221082
-Test set: Average loss: 0.0732, Accuracy: 9778/10000, 97.78)
-
-Current RunID 1fe942e518344e1b92cc4d82270ad92d
-2022/05/24 08:15:05 INFO : External model asset saved successfully under asset_id 62749d34-9b4c-4090-b279-cd06fcc1c374 and catalog 6e846219-9a24-4827-a892-a66697b38b17
-2022/05/24 08:15:05 INFO : logging results to factsheet for run_id 1fe942e518344e1b92cc4d82270ad92d
-2022/05/24 08:15:07 INFO : Successfully logged results to Factsheet service for run_id 1fe942e518344e1b92cc4d82270ad92d under asset_id: 5f430963-7125-4d2d-9981-e925a9df520b
-Saving the model
-```
-
 
 - This is the best way to make sure the training script is working properly within your local virtual environment prior to launch a training job in Sagemaker.
 
@@ -106,51 +79,6 @@ est = PyTorch(
 )
 
 est.fit(inputs={"training": loc, "testing": loc})
-```
-
-
-The following options will run PyTorch model training :
-
-```bash
-User in ~/ai-governance
-# python ./train_sagemaker_job.py --source-dir use_case_pt --train-entrypoint train.py --prefix DEMO-mnist-pycharm
-
-ai-governance/1_rbc_mnist_start_train_job_aws.py --source-dir use_case --train-entrypoint train.py --prefix DEMO-mnist-pycharm
-2022-05-20 17:46:34 Starting - Starting the training job...
-2022-05-20 17:48:36 Downloading - Downloading input data...
-2022-05-20 17:49:06 Training - Downloading the training image......
-bash: no job control in this shell
-2022-05-20 17:50:00,456 sagemaker-training-toolkit INFO     Imported framework sagemaker_pytorch_container.training
-2022-05-20 17:50:00,486 sagemaker_pytorch_container.training INFO     Invoking user training script.
-2022-05-20 17:50:02,067 sagemaker-training-toolkit INFO     Installing dependencies from requirements.txt:
-Environment variables:
-SM_HOSTS=["algo-1"]
-SM_NETWORK_INTERFACE_NAME=eth0
-SM_HPS={"batch-size":128,"epochs":1,"learning-rate":0.001,"log-interval":100,"model":"cnn"}
-SM_USER_ENTRY_POINT=train.py
-SM_FRAMEWORK_PARAMS={}
-SM_RESOURCE_CONFIG={"current_group_name":"homogeneousCluster","current_host":"algo-1","current_instance_type":"ml.c4.xlarge","hosts":["algo-1"],"instance_groups":[{"hosts":["algo-1"],"instance_group_name":"homogeneousCluster","instance_type":"ml.c4.xlarge"}],"network_interface_name":"eth0"}
-Train Epoch: 1 [12800/60000 (21%)] Loss: 0.800991
-Train Epoch: 1 [25600/60000 (43%)] Loss: 0.528690
-Train Epoch: 1 [38400/60000 (64%)] Loss: 0.361964
-Train Epoch: 1 [51200/60000 (85%)] Loss: 0.373296
-Test set: Average loss: 0.1209, Accuracy: 9614/10000, 96.14)
-Current RunID 828c7506ac5e48eb847f92aa610f6e45
-INFO:__main__:Test set: Average loss: 0.1209, Accuracy: 9614/10000, 96.14)
-INFO:__main__:Current RunID 828c7506ac5e48eb847f92aa610f6e45
-2022/05/20 17:50:58 INFO : External model asset saved successfully under asset_id 5e60d20d-d90e-4dca-ae49-5901698052da and catalog 6e846219-9a24-4827-a892-a66697b38b17
-INFO:ibm_aigov_facts_client.factsheet.external_modelfacts_utility:External model asset saved successfully under asset_id 5e60d20d-d90e-4dca-ae49-5901698052da and catalog 6e846219-9a24-4827-a892-a66697b38b17
-2022/05/20 17:50:58 INFO : logging results to factsheet for run_id 828c7506ac5e48eb847f92aa610f6e45
-INFO:ibm_aigov_facts_client.export.export_facts_manual:logging results to factsheet for run_id 828c7506ac5e48eb847f92aa610f6e45
-2022/05/20 17:51:01 INFO : Successfully logged results to Factsheet service for run_id 828c7506ac5e48eb847f92aa610f6e45 under asset_id: 6b34bfac-eef8-48da-ad21-141f1e11240b
-INFO:ibm_aigov_facts_client.base_classes.auth:Successfully logged results to Factsheet service for run_id 828c7506ac5e48eb847f92aa610f6e45 under asset_id: 6b34bfac-eef8-48da-ad21-141f1e11240b
-Saving the model
-2022-05-20 17:51:02,486 sagemaker-training-toolkit INFO     Reporting training SUCCESS
-2022-05-20 17:51:17 Uploading - Uploading generated training model
-2022-05-20 17:51:17 Completed - Training job completed
-Training seconds: 182
-Billable seconds: 182
-Model artifact produced by training job s3://sagemaker-us-east-1-842681259564/DEMO-mnist-pycharm/pytorch-training-2022-05-20-02-46-21-768/output/model.tar.gz
 ```
 
 1. This triggers a training job in AWS that can be monitored in AWS console

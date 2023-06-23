@@ -1,0 +1,52 @@
+{
+    "drift": {
+        "single_column_1": {
+            "total_records": 100,
+            "ratios": [0.01, 0.05, 0.1, 0.2, 0.3],
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + 15000"
+        },
+        "single_column_2": {
+            "total_records": 100,
+            "ratios": [0.1, 0.2, 0.4, 0.8, 1.0],
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + 15000"
+        },
+        "double_column_1": {
+            "total_records": 100,
+            "ratios": [0.1, 0.2, 0.3, 0.6],
+            "source_column": "LoanPurpose",
+            "source_cond": "car_used",
+            "target_column": "LoanAmount",
+            "perturbation_fn": "x + np.mean(x)*100"
+        }
+    },
+    "fairness_perturbations": {
+        "scenario1_args": {
+            "col": "col",
+            "total_records": 100,
+            "ratio": "scenario",
+            "operation": 10000
+        },
+        "scenario2_args": {
+            "col": "col",
+            "total_records": 100,
+            "ratio": "scenario",
+            "operation": 10000
+        }
+    },
+    "quality_perturbations": {
+        "scenario1_args": {
+            "col": "col",
+            "total_records": 100,
+            "ratio": "scenario",
+            "operation": 10000
+        },
+        "scenario2_args": {
+            "col": "col",
+            "total_records": 100,
+            "ratio": "scenario",
+            "operation": 10000
+        }
+    }
+}
