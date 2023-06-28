@@ -4,7 +4,7 @@ This repository enables you to operationalize **ML models in AWS,Azure and IBM C
 
 it includes a collection of model use cases ready to be trained and deployed with these model serving platforms.
 
-These models are using **AI FactSheets** for model metadata capture and allow you to seamlessly experiment the AI governance capabilities of Cloud Pak for Data.
+These models are using **AI FactSheets** for model metadata capture and allow you to seamlessly experiment the AI governance capabilities of Cloud Pak for Data on SaaS or on-prem (>4.7).
 
 ## 1. Purpose - Automation of MLOps process
 
@@ -179,4 +179,4 @@ model_perturbation.ratios = [0.1, 0.2, 0.3, 0.1, 0.4, 0.1]
 model_uc.data_drift_scenario(model_perturbation)
 ```
 
-*Currently only the GCR use case is supported. 
+*Currently only the GCR use case is supported.

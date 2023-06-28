@@ -5,7 +5,6 @@ import os
 import importlib
 from random import randint
 import time
-import pandas as pd
 
 from mlmonitor.src import (
     API_KEY,
@@ -36,6 +35,7 @@ from mlmonitor.use_case_churn.utils import (
     git_branch,
 )  # TODO put this outside use_case_churn
 from mlmonitor.src.wos.evaluate import evaluate_monitor
+
 
 class WMLModelUseCaseEncoder(json.JSONEncoder):
     def default(self, obj: Any) -> Any:
@@ -358,9 +358,15 @@ class WMLModelUseCase(ModelUseCase):
             model_id=published_model_details
         )  # wml_stored_model_details=?
 
-        wml_model.add_tracking_model_usecase(
+        muc_utilities = facts_client.assets.get_model_usecase(
             model_usecase_id=self.model_entry_id,
-            model_usecase_catalog_id=self.catalog_id,
+            catalog_id=self.catalog_id,
+        )
+
+        wml_model.track(
+            model_usecase=muc_utilities,
+            approach=muc_utilities.get_approaches()[0],
+            version_number="minor",  # "0.1.0"
         )
 
     def deploy(self):
