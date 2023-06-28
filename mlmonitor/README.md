@@ -103,7 +103,7 @@ you are now setup to use `mlmonitor`
       "bucket_name" : "xxxxx"
   },
     "prem": {
-      "version": "4.6",
+      "version": "4.7",
       "username": "",
       "apikey": "xxxxx",
       "wos_instance_id" : "00000000-0000-0000-0000-000000000000",
@@ -148,7 +148,7 @@ you are now setup to use `mlmonitor`
 
 #### 2.1.2 On prem environment ('prem' section)
 
-**prem** section must be filled if services are running  on Cloud Pak for Data on OCP :
+**prem** section must be filled if services are running  on Cloud Pak for Data on OCP (CP4D >= 4.7 is required):
 
 1. `apikey` : Cloud Pak for Data API key to instantiate service instances for Watson Machine Learning and Watson OpenScale
 2. `default_space` : deployment space to be used for WML models and custom metrics providers for custom monitors
@@ -293,7 +293,7 @@ Each model use case should be self-contained and include ***model_signature.json
     "description" : "Customer Churn prediction - monitored in WOS",
     "tags" : {"data": "customer churn", "method": "xgboost"},
     "conda_packages": ["pandas==1.5.2", "boto3","seaborn", "matplotlib"],
-    "pip_packages": ["ibm-aigov-facts-client==1.0.48","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
+    "pip_packages": ["ibm-aigov-facts-client==1.0.59","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
     "inference_py_version": "3.9",
     "train_module": "train_cc_xg_boost",
     "train_method": "train_wml"
@@ -395,7 +395,7 @@ Similarly to ***model_signature.json***, each model use case should include ***m
 }
 ```
 
-The JSON file uses the following nommenclature: 
+The JSON file uses the following nommenclature:
 
 ```
 {
@@ -413,9 +413,9 @@ In each **scenario_id**, the following parameters can be used:
 * `ratios`: a list of percentages used to iterate over. In each iteration, the percentage defines the ratio of records to perturb
 * `target_column`: column where to apply the perturbation
 * `perturbation_fn`: perturbation function applied on the target column
-* `source_column`: for two-column constraints, column used to filter the data 
+* `source_column`: for two-column constraints, column used to filter the data
 * `source_condition`: for two-column constraints, filter condition for the source column
 
-Currently, there are two ways to apply drift on the payload data: single column perturbation or two-column perturbation. If `source_column` and `source_cond` are defined in the scenario, two-column perturbation will be applied. 
+Currently, there are two ways to apply drift on the payload data: single column perturbation or two-column perturbation. If `source_column` and `source_cond` are defined in the scenario, two-column perturbation will be applied.
 
-These parameters are then used by the `ModelPerturbator` object to perturb the payload data sent to Watson OpenScale. 
+These parameters are then used by the `ModelPerturbator` object to perturb the payload data sent to Watson OpenScale.

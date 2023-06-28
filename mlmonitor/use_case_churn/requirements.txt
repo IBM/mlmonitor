@@ -1,6 +1,6 @@
 protobuf==3.20.2
 xgboost==1.5.1
-ibm-aigov-facts-client==1.0.44
+ibm-aigov-facts-client==1.0.59
 seaborn
 matplotlib
 pygit2

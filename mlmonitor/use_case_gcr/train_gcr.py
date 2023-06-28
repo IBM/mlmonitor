@@ -187,8 +187,15 @@ def save_fs_model(
         description="Scikit Credit Risk model",
     )
 
-    fs_model.add_tracking_model_usecase(
-        model_usecase_catalog_id=catalog_id, model_usecase_id=model_entry_id
+    muc_utilities = facts_client.assets.get_model_usecase(
+        model_usecase_id=model_entry_id,
+        catalog_id=catalog_id,
+    )
+
+    fs_model.track(
+        model_usecase=muc_utilities,
+        approach=muc_utilities.get_approaches()[0],
+        version_number="minor",  # "0.1.0"
     )
 
 
