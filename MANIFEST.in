@@ -2,6 +2,7 @@ include version.meta
 include README.md
 include requirements.txt
 global-include model_signature.json
+global-include model_perturbation.json
 global-include requirements.txt
 global-include *.gitkeep
 global-exclude *.py[cod]

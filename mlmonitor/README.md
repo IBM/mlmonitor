@@ -12,54 +12,20 @@ mlmonitor python module is designed to help you:
 
 ## 0. Prerequisites
 
-- Clone this repository
-
-### 0.1 Prepare virtual environment
-
-In order to prepare your environment you should :
-
--  **create a python virtual environment** with dependencies in [requirements.txt](../requirements.txt)
-- Make sure `wheel` package is installed. Alternatively , you can also install it using home-brew
-
-```bash
-brew install wheel
-```
-
-```bash
-$ cd ~ # or any repository to store virtual environments (use pipenv if prefered)
-$ python -m venv venv-mlmonitor
-$ source venv-mlmonitor/bin/activate
-(venv-mlmonitor)
-```
-
-### 0.2 Build the library locally
-
-```bash
-(venv-mlmonitor)
-$ cd <GitHub-directory>
-$ pip install -r requirements-dev.txt # install wheel package
-$ python setup.py bdist_wheel
-```
-
-this will generate _mlmonitor-1.1-py3-none-any.whl_ under ```<GitHub-directory>/dist/``` directory
-
-### 0.3 install mlmonitor package
+### 0.1 install mlmonitor package
 
 
 ```bash
-(venv-mlmonitor)
-$ pip install <GitHub-directory>/dist/mlmonitor-1.1-py3-none-any.whl
+$ pip install mlmonitor
 ```
-
-
 
 This command will install **mlmonitor** with its dependencies such as  ***ibm-aigov-facts-client*** which is the AI factsheets client library built from this [repo](https://pypi.org/project/ibm-aigov-facts-client) .
 
-Documentation is available [here](http://ibm-aigov-facts-client.mybluemix.net/#)
+Documentation is available [here](https://s3.us.cloud-object-storage.appdomain.cloud/factsheets-client/index.html)
 
 **<u>Note :</u>** latest releases of this client can be installed from test PiPy server https://test.pypi.org/simple/git stat
 
-### 0.4 Set `MONITOR_CONFIG_FILE` environment variable
+### 0.2 Set `MONITOR_CONFIG_FILE` environment variable
 
 populate [credentials.cfg](./credentials_example.cfg) file , see section 2 for more details .
 
@@ -196,7 +162,6 @@ for more details , refer to Readme of each model use case e.g `use_case_churn`
 ```bash
 (venv-mlmonitor)
 $ python
-Python 3.9.7
 >>> from mlmonitor import SageMakerModelUseCase
 >>> source_dir = 'use_case_churn'
 >>> catalog_id = <catalog id>
@@ -395,7 +360,7 @@ Similarly to ***model_signature.json***, each model use case should include ***m
 }
 ```
 
-The JSON file uses the following nommenclature:
+The JSON file uses the following nomenclature:
 
 ```
 {

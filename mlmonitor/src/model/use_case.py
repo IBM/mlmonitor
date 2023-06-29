@@ -723,7 +723,7 @@ class ModelUseCase(ABC):
 
     def data_drift_scenario(
         self,
-        model_perturbation: ModelPerturbator=None,
+        model_perturbation: ModelPerturbator = None,
         dataset_type: str = "train",
     ):
         """

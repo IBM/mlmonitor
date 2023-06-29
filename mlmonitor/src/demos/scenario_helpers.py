@@ -8,7 +8,6 @@ from sklearn.metrics import (
 )
 
 from typing import Callable
-import matplotlib.pyplot as plt
 import random
 import time
 import uuid

@@ -3,6 +3,7 @@ import os
 import json
 import logging
 from typing import Dict, Union
+from mlmonitor.src import PROJECT_ROOT
 
 
 class ModelPerturbator:
@@ -112,18 +113,21 @@ class ModelPerturbator:
             loaded_dict = file.copy()
             logging.info("ModelPerturbator class loaded from dict")
         else:
-            file = "./mlmonitor/use_case_gcr/model_perturbation.json"
+            file = f"{PROJECT_ROOT}/{self.source_dir}/model_perturbation.json"
+            assert os.path.exists(
+                file
+            ), f"model_perturbation.json undefined for use case {self.source_dir}"
 
             with open(file, "r") as f:
                 loaded_dict = json.load(f)
             logging.info("ModelPerturbator class loaded with default configuration")
 
-        assert monitor_type in [
+        assert monitor_type in {
             "quality",
             "fairness",
             "explainability",
             "drift",
-        ], "the monitor_type is invalid"
+        }, "the monitor_type is invalid"
 
         assert (
             scenario_id in loaded_dict.get(monitor_type).keys()
@@ -196,9 +200,7 @@ if __name__ == "__main__":
     ratios_list = perturbation_args.get("ratios")
 
     # Reading the data
-    valid_df = pd.read_csv(
-        "./mlmonitor/datasets/gcr/test_feedback_data_gcr.csv"
-    )
+    valid_df = pd.read_csv(f"{PROJECT_ROOT}/datasets/gcr/test_feedback_data_gcr.csv")
 
     # Applying perturbation
     for ratio in ratios_list:

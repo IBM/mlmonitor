@@ -67,13 +67,13 @@ mlmonitor is currently released on test Pypi and can be installed as follow :
 * from a Waston studio environment
 
 ```bash
-pip install --extra-index-url https://test.pypi.org/simple/ mlmonitor
+pip install mlmonitor
 ```
 
 * from a local and fresh python environment add `local` extra requirement
 
 ```bash
-pip install --extra-index-url https://test.pypi.org/simple/ mlmonitor[local]
+pip install mlmonitor[local]
 ```
 
 * if you need to configure drift monitors add `drift` extra requirement to the install command [drift]

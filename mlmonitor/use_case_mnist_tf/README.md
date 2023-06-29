@@ -278,7 +278,6 @@ INFO : Successfully logged results to Factsheet service for run_id cb674ee7065b4
 INFO : External model asset saved successfully under asset_id ebcb4bdd-c4f2-4f27-b3c4-20682524674b and catalog 2885333d-637c-49a0-a9ca-23323377a36a
 INFO : Initiate linking model to existing model entry 8881ef6b-1368-4f29-8f70-3c353a8b742c......
 INFO : Successfully finished linking Model ebcb4bdd-c4f2-4f27-b3c4-20682524674b to Model Entry
-https://api.dataplatform.cloud.ibm.com/v1/aigov/model_inventory/model_entries/8881ef6b-1368-4f29-8f70-3c353a8b742c/models?catalog_id=ecee7437-0b57-43ad-a0dd-23c21173aa3f&allow_metadata_on_dpr_deny=true
 ['ebcb4bdd-c4f2-4f27-b3c4-20682524674b']
 
 INFO : Successfully logged results to Factsheet service for run_id under asset_id: 76d6b
