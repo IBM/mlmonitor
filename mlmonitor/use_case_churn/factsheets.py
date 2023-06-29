@@ -11,7 +11,7 @@ from ibm_aigov_facts_client import (
 )
 
 try:
-    from use_case_churn.utils import git_branch
+    from mlmonitor.use_case_churn.utils import git_branch
 except ImportError:
     from utils import git_branch
 
