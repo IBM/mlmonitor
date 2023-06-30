@@ -1,3 +1,4 @@
+ipython
 ibm_watson_machine_learning
 ibm_watson_openscale
 ibm-aigov-facts-client==1.0.59
