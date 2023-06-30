@@ -11,11 +11,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from ibm_aigov_facts_client import (
-    AIGovFactsClient,
-    ModelEntryProps,
-    CloudPakforDataConfig,
-)
+from ibm_aigov_facts_client import AIGovFactsClient, CloudPakforDataConfig
 
 from pt_models import ConvNet
 from utils import get_secret, parse_args
@@ -171,19 +167,21 @@ def train(args):
 
     facts_client.export_facts.export_payload_manual(run_id)
 
-    if args.get("catalog_id") and args.get("model_entry_id"):
-        props = ModelEntryProps(
-            model_entry_catalog_id=args.get("catalog_id"),
-            model_entry_id=args.get("model_entry_id"),
-        )
-    else:
-        props = None
     # Log external Model
-    facts_client.external_model_facts.save_external_model_asset(
+    fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=EXPERIMENT_NAME,
         name=EXPERIMENT_NAME,
-        model_entry_props=props,
         description="sagemaker Pytorch CNN MNIST",
+    )
+    muc_utilities = facts_client.assets.get_model_usecase(
+        model_usecase_id=args.get("model_entry_id"),
+        catalog_id=args.get("catalog_id"),
+    )
+
+    fs_model.track(
+        model_usecase=muc_utilities,
+        approach=muc_utilities.get_approaches()[0],
+        version_number="minor",  # "0.1.0"
     )
     # save model checkpoint
     save_model(net, args.get("model_dir"))

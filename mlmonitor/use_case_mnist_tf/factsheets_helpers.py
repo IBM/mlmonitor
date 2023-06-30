@@ -130,7 +130,8 @@ def save_fs_model(
     facts_client: AIGovFactsClient,
     experiment_id: str,
     experiment_name: str,
-    props: ModelEntryProps = None,
+    catalog_id: str,
+    model_entry_id: str,
     inputs=None,
     outputs=None,
     tdataref=None,
@@ -161,11 +162,21 @@ def save_fs_model(
 
     trainingdataref = TrainingDataReference(schema=tdataref) if tdataref else None
 
-    facts_client.external_model_facts.save_external_model_asset(
+    fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=experiment_name,
         name=experiment_name,
-        model_entry_props=props,
         schemas=external_schemas,
         training_data_reference=trainingdataref,
         description="MNIST CNN Keras",
+    )
+
+    muc_utilities = facts_client.assets.get_model_usecase(
+        model_usecase_id=model_entry_id,
+        catalog_id=catalog_id,
+    )
+
+    fs_model.track(
+        model_usecase=muc_utilities,
+        approach=muc_utilities.get_approaches()[0],
+        version_number="minor",  # "0.1.0"
     )

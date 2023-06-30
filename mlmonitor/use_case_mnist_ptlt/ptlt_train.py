@@ -9,11 +9,7 @@ import logging
 from pygit2 import Repository
 from pygit2 import GitError
 import numpy as np
-from ibm_aigov_facts_client import (
-    AIGovFactsClient,
-    CloudPakforDataConfig,
-    ModelEntryProps,
-)
+from ibm_aigov_facts_client import AIGovFactsClient, CloudPakforDataConfig
 
 from pytorch_lightning import Trainer
 from torchinfo import summary
@@ -126,14 +122,6 @@ def train(arguments):
     )
     facts_client.runs.set_tags(run_id, {"git.branch": branch})
 
-    if arguments.get("catalog_id") and arguments.get("model_entry_id"):
-        props = ModelEntryProps(
-            model_entry_catalog_id=arguments.get("catalog_id"),
-            model_entry_id=arguments.get("model_entry_id"),
-        )
-    else:
-        props = None
-
     experiments = facts_client.experiments.list_experiments()
     logger.info(f"experiments : {experiments}")
 
@@ -142,13 +130,23 @@ def train(arguments):
 
     facts_client.export_facts.export_payload(run_id)
 
-    facts_client.external_model_facts.save_external_model_asset(
+    fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=EXPERIMENT_NAME,
         name=EXPERIMENT_NAME,
-        model_entry_props=props,
         # schemas=external_schemas,
         # training_data_reference=tdataref,
         description="MNIST FC mdl trained Pytorch Lightning",
+    )
+
+    muc_utilities = facts_client.assets.get_model_usecase(
+        model_usecase_id=arguments.get("model_entry_id"),
+        catalog_id=arguments.get("catalog_id"),
+    )
+
+    fs_model.track(
+        model_usecase=muc_utilities,
+        approach=muc_utilities.get_approaches()[0],
+        version_number="minor",  # "0.1.0"
     )
 
 
