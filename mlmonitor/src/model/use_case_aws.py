@@ -3,7 +3,6 @@ from typing import Any, Dict, Union
 import json
 import os
 import boto3
-import pandas as pd
 from boto3.session import Session as boto_Session
 import warnings
 
@@ -22,7 +21,7 @@ from mlmonitor.src import (
 
 from mlmonitor.src.model.config_aws import SageMakerModelConfig
 from mlmonitor.src.model.use_case import ModelUseCase
-
+from mlmonitor.src.wos.evaluate import evaluate_monitor
 from mlmonitor.src.aws.train_sagemaker_job import train_sagemaker_job
 from mlmonitor.src.aws.deploy_sagemaker_endpoint import (
     deploy_sagemaker_endpoint,
@@ -40,13 +39,13 @@ from mlmonitor.src.aws.secrets_manager import (
     sm_secret_name_exists,
     sm_secret_key_name_exists,
 )
-from mlmonitor.src.demos.scenario_helpers import perturb_column
 from mlmonitor.src.aws.scoring import sm_get_modelnames  # , sm_get_ep_configname
 from mlmonitor.src.factsheets.utils import (
     get_model_id_by_deployment_name,
     FactsheetHelpers,
 )
 from mlmonitor.exceptions import MisMatchKeyManagerSecretValue
+from mlmonitor.src.demos.scenario_helpers import perturb_column, perturb_double_column
 
 
 class SageMakerModelUseCaseEncoder(json.JSONEncoder):
@@ -449,13 +448,25 @@ class SageMakerModelUseCase(ModelUseCase):
         return response
 
     @log_as_wos_payload("aws")
-    def perturb_scoring(self, dataset_type: str = "train", **kwargs) -> pd.DataFrame:
-        """
-        perturb single column of dataset of type dataset_type
-        :param: dataset_type:str dataset to use before adding perturbation
-        :return: pandas dataframe with perturbed column
-        """
-        return perturb_column(df=self._df, **kwargs)
+    def send_perturbation(self, dataset_type="train", **kwargs):
+
+        if "source_column" in kwargs and "source_cond" in kwargs:
+            return perturb_double_column(df=self._df, **kwargs)
+
+        else:
+            return perturb_column(df=self._df, **kwargs)
+
+    def perturb_scoring(self, dataset_type="train", **kwargs):
+        ratios_list = kwargs.pop("ratios")
+
+        for ratio in ratios_list:
+            kwargs["ratio"] = ratio
+            self.send_perturbation(dataset_type, **kwargs)
+
+            evaluate_monitor(
+                deployment_name=self.model_endpoint,
+                monitor_types=("drift",),  # TODO why tuple?
+            )
 
     def sm_use_case_json(self) -> Dict:
         """
