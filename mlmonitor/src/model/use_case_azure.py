@@ -3,7 +3,6 @@ from typing import Any, Dict, Union
 import json
 import os
 import time
-import pandas as pd
 import importlib
 
 from mlmonitor.src import (
@@ -38,7 +37,8 @@ from mlmonitor.src.azure.scoring import get_wos_response, _score_unstructured
 from mlmonitor.src.wos.run_payload_logging import log_as_wos_payload
 from mlmonitor.src.wos import wos_client
 from mlmonitor.src.wos.subscription import get_subscription_id_by_deployment
-from mlmonitor.src.demos.scenario_helpers import perturb_column
+from mlmonitor.src.wos.evaluate import evaluate_monitor
+from mlmonitor.src.demos.scenario_helpers import perturb_column, perturb_double_column
 from mlmonitor.src.factsheets.utils import (
     get_model_id_by_deployment_name,
     FactsheetHelpers,
@@ -565,13 +565,25 @@ class AzureModelUseCase(ModelUseCase):
         return response_wos
 
     @log_as_wos_payload("azure")
-    def perturb_scoring(self, dataset_type="train", **kwargs) -> pd.DataFrame:
-        """
-        perturb single column of dataset of type dataset_type
-        :param: dataset_type:str dataset to use before adding perturbation
-        :return: pandas dataframe with perturbed column
-        """
-        return perturb_column(df=self._df, **kwargs)
+    def send_perturbation(self, dataset_type="train", **kwargs):
+
+        if "source_column" in kwargs and "source_cond" in kwargs:
+            return perturb_double_column(df=self._df, **kwargs)
+
+        else:
+            return perturb_column(df=self._df, **kwargs)
+
+    def perturb_scoring(self, dataset_type="train", **kwargs):
+        ratios_list = kwargs.pop("ratios")
+
+        for ratio in ratios_list:
+            kwargs["ratio"] = ratio
+            self.send_perturbation(dataset_type, **kwargs)
+
+            evaluate_monitor(
+                deployment_name=self.model_endpoint,
+                monitor_types=("drift",),  # TODO why tuple?
+            )
 
     def azure_use_case_json(self) -> Dict:
         """

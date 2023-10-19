@@ -22,16 +22,8 @@ def add_aws_deployment_details(
     from ibm_aigov_facts_client import (
         AIGovFactsClient,
         DeploymentDetails,
-        ModelEntryProps,
         CloudPakforDataConfig,
     )
-
-    if catalog_id and model_entry_id:
-        props = ModelEntryProps(
-            model_entry_catalog_id=catalog_id, model_entry_id=model_entry_id
-        )
-    else:
-        props = None
 
     sagemaker_session = sagemaker.Session(session)
     endpoint_data = sagemaker_session.sagemaker_client.describe_endpoint(
@@ -99,10 +91,20 @@ def add_aws_deployment_details(
 
     facts_client.export_facts.export_payload_manual(run_id)
 
-    facts_client.external_model_facts.save_external_model_asset(
+    fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=model_data.get("ModelName"),
-        model_entry_props=props,
         name=model_data.get("ModelName"),
         description=description,
         deployment_details=deployment,
+    )
+
+    muc_utilities = facts_client.assets.get_model_usecase(
+        model_usecase_id=model_entry_id,
+        catalog_id=catalog_id,
+    )
+
+    fs_model.track(
+        model_usecase=muc_utilities,
+        approach=muc_utilities.get_approaches()[0],
+        version_number="minor",  # "0.1.0"
     )
