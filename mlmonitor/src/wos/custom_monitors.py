@@ -19,7 +19,6 @@ from ibm_watson_openscale.supporting_classes.enums import TargetTypes
 from ibm_watson_openscale.base_classes.watson_open_scale_v2 import (
     MonitorInstanceSchedule,
     ScheduleStartTime,
-    MonitorRuntime,
 )
 
 
@@ -98,7 +97,6 @@ def create_custom_monitor_definition(
                     repeat_unit=repeat_type,
                     start_time=start_time,
                 ),
-                monitor_runtime=MonitorRuntime(type="custom_metrics_provider"),
                 background_mode=False,
             ).result
             if enable_schedule

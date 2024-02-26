@@ -171,6 +171,7 @@ def train(args):
     fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=EXPERIMENT_NAME,
         name=EXPERIMENT_NAME,
+        catalog_id=args.get("catalog_id"),
         description="sagemaker Pytorch CNN MNIST",
     )
     muc_utilities = facts_client.assets.get_model_usecase(

@@ -181,6 +181,7 @@ def save_fs_model(
 
     fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=experiment_name,
+        catalog_id=catalog_id,
         name=experiment_name,
         schemas=external_schemas,
         training_data_reference=trainingdataref,

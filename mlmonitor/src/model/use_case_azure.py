@@ -381,6 +381,7 @@ class AzureModelUseCase(ModelUseCase):
             schemas=None,  # TODO add schemas
             training_data_reference=None,  # TODO add training_data_reference
             description=f"mlmonitor {self.source_dir}",
+            catalog_id=self.catalog_id,
         )
 
         muc_utilities = facts_client.assets.get_model_usecase(

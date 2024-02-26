@@ -47,7 +47,7 @@ def create_software_specification_extension(
     pkg_extn_uid: str,
     name: str,
     descr: str,
-    base_runtime: str = "runtime-22.1-py3.9",
+    base_runtime: str = "runtime-22.2-py3.10",
 ) -> str:
     """
     creates a new WML software specification based on an existing one and adds a package extension to it.
@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
     sw_spec_name = f"custmonitor-{version}"
     sw_sepc_decr = f"Software specification with custmonitor-{version}"
-    base_sw_spec = "runtime-22.1-py3.9"
+    base_sw_spec = "runtime-22.2-py3.10"
 
     sw_spec_uid = wml_client.software_specifications.get_uid_by_name(sw_spec_name)
 

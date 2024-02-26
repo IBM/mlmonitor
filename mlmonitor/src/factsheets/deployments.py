@@ -96,6 +96,7 @@ def add_aws_deployment_details(
         name=model_data.get("ModelName"),
         description=description,
         deployment_details=deployment,
+        catalog_id=catalog_id,
     )
 
     muc_utilities = facts_client.assets.get_model_usecase(

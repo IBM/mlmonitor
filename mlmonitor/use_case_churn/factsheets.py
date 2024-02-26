@@ -144,6 +144,7 @@ def save_fs_model(
         name=experiment_name,
         schemas=external_schemas,
         training_data_reference=trainingdataref,
+        catalog_id=catalog_id,
         description="Customer Churn Model with XGBOOST",
     )
 

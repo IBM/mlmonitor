@@ -1,5 +1,5 @@
 ipython
-ibm-aigov-facts-client==1.0.60
+ibm-aigov-facts-client==1.0.67
 ibm_watson_machine_learning
 ibm_watson_openscale
 pytorch-lightning==1.6.1

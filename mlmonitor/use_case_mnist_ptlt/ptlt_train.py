@@ -133,6 +133,7 @@ def train(arguments):
     fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=EXPERIMENT_NAME,
         name=EXPERIMENT_NAME,
+        catalog_id=args.get("catalog_id"),
         # schemas=external_schemas,
         # training_data_reference=tdataref,
         description="MNIST FC mdl trained Pytorch Lightning",
