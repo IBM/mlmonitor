@@ -38,7 +38,7 @@
 	"wml_runtime": {
 		"train_module": "tf_cnn_train",
 		"train_method": "train_wml",
-		"inference_instance": "runtime-22.2-py3.10",
+		"inference_instance": "runtime-23.1-py3.10",
 		"inference_framework": "tensorflow",
 		"inference_framework_version": "2.9",
 		"inference_script": "tf_cnn_inference.py"

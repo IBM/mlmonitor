@@ -932,14 +932,14 @@ class ModelUseCase(ABC):
     def _create_custom_monitor_sw_specification(
         pkg_extn_uid: str,
         sw_spec_name: str,
-        base_sw_spec: str = "runtime-22.2-py3.10",
+        base_sw_spec: str = "runtime-23.1-py3.10",
     ) -> str:
         """
         creates a software specification for the custom monitor that will be used to deploy custom metrics provider in WML.
 
         :param pkg_extn_uid:str: package extension that is used to create the custom metrics provider python function and deployment
         :param sw_spec_name:str: unique name for the software specification
-        :param base_sw_spec:str=runtime-22.2-py3.10: Specify the base software specification to use as a starting point
+        :param base_sw_spec:str=runtime-23.1-py3.10: Specify the base software specification to use as a starting point
         :return: software specification uid after creation
         """
 

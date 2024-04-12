@@ -241,7 +241,7 @@ Each model use case should be self-contained and include ***model_signature.json
 "wml_runtime": {
     "train_module": "train_cc_xg_boost",
     "train_method": "train_wml",
-    "inference_instance": "runtime-22.2-py3.10",
+    "inference_instance": "runtime-23.1-py3.10",
     "inference_framework": "scikit-learn",
     "inference_framework_version": "1.1",
     "inference_script": "inference_cc_sk.py"

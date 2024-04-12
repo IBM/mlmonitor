@@ -10,7 +10,7 @@ WML_CREDENTIALS = {"url": WML_URL}
 SUPPORTED_WML_RUNTIMES = {
     "runtime-22.1-py3.10",
     "spark-mllib_3.3",
-    "runtime-22.2-py3.10",
+    "runtime-23.1-py3.10",
     "tensorflow_rt22.1-py3.9",
     "tensorflow_rt22.1-py3.10",
 }
