@@ -43,10 +43,16 @@ def create_integrated_system(
     auth_url: str,
     api_key: str,
     scoring_url: str,
+    username: str = None,
 ):
-    custom_provider_creds = create_integrated_system_credentials_cloud(
-        auth_url, api_key
-    )
+    if username:
+        custom_provider_creds = create_integrated_system_credentials_cp4d(
+            username=username, url=auth_url, api_key=api_key
+        )
+    else:
+        custom_provider_creds = create_integrated_system_credentials_cloud(
+            auth_url, api_key
+        )
 
     custom_metrics_integrated_system = (
         IntegratedSystems(wos_client)

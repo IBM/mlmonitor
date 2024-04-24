@@ -32,6 +32,7 @@ def configure_custom_monitor(
     wml_space_id: str = WML_SPACE_ID,
     apikey: str = API_KEY,
     auth_url: str = IAM_URL,
+    username: str = None,
 ) -> dict:
     """
     The configure_custom_monitor function :
@@ -50,6 +51,7 @@ def configure_custom_monitor(
     :param wml_space_id:str=WML_SPACE_ID: Watson Machine Learning Deployment Space ID where WML Custom Provider function is deployed
     :param apikey:str=API_KEY: Watson OpenScale Client API Key
     :param auth_url:str=IAM_URL: Specify the url of your IAM instance
+    :param username:str=None: CP4D username
     :return: A dict with the following structure:
 
     """
@@ -87,7 +89,7 @@ def configure_custom_monitor(
     )
 
     if len(integrated_system_ids) == 1:
-        logger.info("Integrated system ID {integrated_system_ids[0]}")
+        logger.info(f"Integrated system ID {integrated_system_ids[0]}")
         integrated_system_id = integrated_system_ids[0]
 
     elif len(integrated_system_ids) == 0:
@@ -97,6 +99,7 @@ def configure_custom_monitor(
             api_key=apikey,
             scoring_url=scoring_url,
             auth_url=auth_url,
+            username=username,
         )
         integrated_system_id = custom_metrics_integrated_system.metadata.id
         logger.info(
