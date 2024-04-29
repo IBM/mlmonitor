@@ -1,6 +1,6 @@
 REPOSITORY=us.icr.io/mlops
 NAME=mlmonitor-python
-VERSION?=1.0.0
+VERSION=1.0.0
 CONFIG_FILE?=/app/base/config.json
 
 .PHONY: clean docker push run

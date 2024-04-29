@@ -358,8 +358,8 @@ class WMLModelUseCase(ModelUseCase):
             model_id=published_model_details
         )  # wml_stored_model_details=?
 
-        muc_utilities = facts_client.assets.get_model_usecase(
-            model_usecase_id=self.model_entry_id,
+        muc_utilities = facts_client.assets.get_ai_usecase(
+            ai_usecase_id=self.model_entry_id,
             catalog_id=self.catalog_id,
         )
 

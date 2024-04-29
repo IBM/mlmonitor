@@ -139,8 +139,8 @@ def train(arguments):
         description="MNIST FC mdl trained Pytorch Lightning",
     )
 
-    muc_utilities = facts_client.assets.get_model_usecase(
-        model_usecase_id=arguments.get("model_entry_id"),
+    muc_utilities = facts_client.assets.get_ai_usecase(
+        ai_usecase_id=arguments.get("model_entry_id"),
         catalog_id=arguments.get("catalog_id"),
     )
 

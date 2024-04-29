@@ -171,8 +171,8 @@ def save_fs_model(
         description="MNIST CNN Keras",
     )
 
-    muc_utilities = facts_client.assets.get_model_usecase(
-        model_usecase_id=model_entry_id,
+    muc_utilities = facts_client.assets.get_ai_usecase(
+        ai_usecase_id=model_entry_id,
         catalog_id=catalog_id,
     )
 

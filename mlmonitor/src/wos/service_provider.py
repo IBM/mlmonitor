@@ -141,12 +141,12 @@ def add_azure_provider(
     service_provider_id = get_provider_id(
         wos_client=wos_client, service_provider_name=service_provider_name
     )
-
     if not service_provider_id:
+        service_type = "azure_machine_learning_service"
         added_service_provider_result = wos_client.service_providers.add(
             name=service_provider_name,
             description=service_provider_descr,
-            service_type=ServiceTypes.AZURE_MACHINE_LEARNING_SERVICE,
+            service_type=service_type,
             operational_space_id=wos_provider_type,
             credentials=AzureCredentials(
                 subscription_id=subscription_id,

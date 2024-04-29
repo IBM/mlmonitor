@@ -174,8 +174,8 @@ def train(args):
         catalog_id=args.get("catalog_id"),
         description="sagemaker Pytorch CNN MNIST",
     )
-    muc_utilities = facts_client.assets.get_model_usecase(
-        model_usecase_id=args.get("model_entry_id"),
+    muc_utilities = facts_client.assets.get_ai_usecase(
+        ai_usecase_id=args.get("model_entry_id"),
         catalog_id=args.get("catalog_id"),
     )
 

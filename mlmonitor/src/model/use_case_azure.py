@@ -239,8 +239,8 @@ class AzureModelUseCase(ModelUseCase):
         # TODO investigate why AIGOv client disables mlmonitor logs
         # Check for AI FactSheets
         # fs_client = self._init_external_fs_client()
-        # all_models = fs_client.assets.get_model_usecase(
-        #     model_usecase_id=self.model_entry_id, catalog_id=self.catalog_id
+        # all_models = fs_client.assets.get_ai_usecase(
+        #     ai_usecase_id=self.model_entry_id, catalog_id=self.catalog_id
         # ).get_all_facts().get('entity').get('modelfacts_global')
 
         fs_helpers = FactsheetHelpers(
@@ -298,8 +298,11 @@ class AzureModelUseCase(ModelUseCase):
         """
 
         self._store_ibm_key()
+        if not self.model_endpoint:
+            model_name = self._assign_model_endpoint()
+        else:
+            model_name = self.model_endpoint
 
-        model_name = self._assign_model_endpoint()
         model = train_az_ml_job(
             model_name=model_name,
             model_config=self._model_config,
@@ -314,7 +317,8 @@ class AzureModelUseCase(ModelUseCase):
         )
 
         self.model_uid = model.id
-        self.model_endpoint = model_name
+        if not self.model_endpoint:
+            self.model_endpoint = model_name
         self._assign_params_from_model()
 
     def _init_external_fs_client(self):
@@ -384,8 +388,8 @@ class AzureModelUseCase(ModelUseCase):
             catalog_id=self.catalog_id,
         )
 
-        muc_utilities = facts_client.assets.get_model_usecase(
-            model_usecase_id=self.model_entry_id,
+        muc_utilities = facts_client.assets.get_ai_usecase(
+            ai_usecase_id=self.model_entry_id,
             catalog_id=self.catalog_id,
         )
 
@@ -473,7 +477,7 @@ class AzureModelUseCase(ModelUseCase):
         """
         not needed for Azure models
         """
-        from ibm_aigov_facts_client import ModelEntryProps, DeploymentDetails
+        from ibm_aigov_facts_client import DeploymentDetails
 
         if not self.model_data:
             raise ValueError("Model data location should be set")
@@ -492,12 +496,9 @@ class AzureModelUseCase(ModelUseCase):
 
         fs_model = facts_client.external_model_facts.save_external_model_asset(
             model_identifier=self.model_endpoint,
-            model_entry_props=ModelEntryProps(
-                model_entry_catalog_id=self.catalog_id,
-                model_entry_id=self.model_entry_id,
-            ),
             name=self.model_endpoint,
             deployment_details=deployment,
+            catalog_id=self.catalog_id,
         )
 
         exp = fs_model.get_experiment(self.model_endpoint)
@@ -620,8 +621,10 @@ class AzureModelUseCase(ModelUseCase):
         )
         deployment_details = deployments[0]
         self._model_config.inference_compute = deployment_details.compute_type.lower()
-        self._model_config.conda_packages = list(
-            deployment_details.environment.python.conda_dependencies.pip_packages
+        self._model_config.conda_packages = (
+            list(deployment_details.environment.python.conda_dependencies.pip_packages)
+            if deployment_details.environment
+            else None
         )
         self.model_endpoint = ep_name
         self.is_deployed = True
