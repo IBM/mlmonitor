@@ -154,7 +154,7 @@ def save_fs_model(
     )
 
     fs_model.track(
-        model_usecase=muc_utilities,
+        usecase=muc_utilities,
         approach=muc_utilities.get_approaches()[0],
         version_number="minor",  # "0.1.0"
     )
