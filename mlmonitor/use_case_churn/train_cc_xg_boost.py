@@ -130,8 +130,7 @@ class XGBModel:
         return None
 
     def predict(self, data):
-        res = self.model.predict(data)
-        return res
+        return self.model.predict(data)
 
 
 def train_wml(

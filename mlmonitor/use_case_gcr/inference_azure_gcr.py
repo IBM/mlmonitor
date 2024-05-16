@@ -40,4 +40,5 @@ def run(input_data):
     except Exception as e:
         result = str(e)
         # return error message back to the client
+        print(f"output:error:\n{result}")
         return {"error": result}

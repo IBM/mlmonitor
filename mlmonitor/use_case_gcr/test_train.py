@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("--cp4d-username", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--cp4d-url", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--model-name", type=str, default="gcr-model")
-
+    parser.add_argument("--grc-model-name", type=str, default=None)
     # Training Job specific arguments (Sagemaker,Azure,WML) default SageMaker envar or Azure expected values
     parser.add_argument("--model-dir", type=str, default=os.getenv("SM_MODEL_DIR", "./outputs"))
     parser.add_argument("--output-data-dir", type=str, default=os.getenv("SM_OUTPUT_DATA_DIR", "./outputs"))
@@ -89,4 +89,5 @@ if __name__ == "__main__":
         outputs=None,
         tdataref=None,
         params=params,
+        grc_model_name=parameters.get("grc_model_name"),
     )

@@ -171,17 +171,29 @@ def train(args):
     fs_model = facts_client.external_model_facts.save_external_model_asset(
         model_identifier=EXPERIMENT_NAME,
         name=EXPERIMENT_NAME,
+        catalog_id=args.get("catalog_id"),
         description="sagemaker Pytorch CNN MNIST",
     )
-    muc_utilities = facts_client.assets.get_model_usecase(
-        model_usecase_id=args.get("model_entry_id"),
+    muc_utilities = facts_client.assets.get_ai_usecase(
+        ai_usecase_id=args.get("model_entry_id"),
         catalog_id=args.get("catalog_id"),
     )
 
+    grc_model = None
+    if args.get("grc_model_name"):
+        grc_models = [
+            grc_model
+            for grc_model in muc_utilities.get_grc_models()
+            if grc_model.get("GrcModel").get("name") == args.get("grc_model_name")
+        ]
+        grc_model = grc_models[0] if len(grc_models) == 1 else None
+    logger.info(f"GRC Model ID [{grc_model}]")
+
     fs_model.track(
-        model_usecase=muc_utilities,
+        usecase=muc_utilities,
         approach=muc_utilities.get_approaches()[0],
         version_number="minor",  # "0.1.0"
+        grc_model=grc_model,
     )
     # save model checkpoint
     save_model(net, args.get("model_dir"))

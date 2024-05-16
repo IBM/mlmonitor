@@ -63,6 +63,7 @@ class ModelUseCase(ABC):
             self.catalog_id = catalog_id
             self.model_entry_id = model_entry_id
             self.model_endpoint = None
+            self.grc_model_name = None
             self.is_trained = False
             self.is_deployed = False
             self.is_governed = False
@@ -101,6 +102,20 @@ class ModelUseCase(ABC):
         :return:
         """
         self._model_endpoint = value
+
+    @property
+    def grc_model_name(self) -> str:
+        """ "GRC Model Name in OpenPages corresponding to a model candidate"""
+        return self._grc_model_name
+
+    @grc_model_name.setter
+    def grc_model_name(self, value: str):
+        """
+        Set the gcr_model_name to use with OpenPages
+        :param value:
+        :return:
+        """
+        self._grc_model_name = value
 
     @property
     def catalog_id(self) -> str:
@@ -350,6 +365,7 @@ class ModelUseCase(ABC):
             )
             subscription_id = subscription_ids[0]
         else:
+            # ! TODO support non production
             provider_type = "production"
             subscription_id = monitor_model(
                 model_config=self._model_config,
@@ -931,14 +947,14 @@ class ModelUseCase(ABC):
     def _create_custom_monitor_sw_specification(
         pkg_extn_uid: str,
         sw_spec_name: str,
-        base_sw_spec: str = "runtime-22.1-py3.9",
+        base_sw_spec: str = "runtime-23.1-py3.10",
     ) -> str:
         """
         creates a software specification for the custom monitor that will be used to deploy custom metrics provider in WML.
 
         :param pkg_extn_uid:str: package extension that is used to create the custom metrics provider python function and deployment
         :param sw_spec_name:str: unique name for the software specification
-        :param base_sw_spec:str=runtime-22.1-py3.9: Specify the base software specification to use as a starting point
+        :param base_sw_spec:str=runtime-23.1-py3.10: Specify the base software specification to use as a starting point
         :return: software specification uid after creation
         """
 

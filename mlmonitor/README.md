@@ -241,7 +241,7 @@ Each model use case should be self-contained and include ***model_signature.json
 "wml_runtime": {
     "train_module": "train_cc_xg_boost",
     "train_method": "train_wml",
-    "inference_instance": "runtime-22.2-py3.10",
+    "inference_instance": "runtime-23.1-py3.10",
     "inference_framework": "scikit-learn",
     "inference_framework_version": "1.1",
     "inference_script": "inference_cc_sk.py"
@@ -258,7 +258,7 @@ Each model use case should be self-contained and include ***model_signature.json
     "description" : "Customer Churn prediction - monitored in WOS",
     "tags" : {"data": "customer churn", "method": "xgboost"},
     "conda_packages": ["pandas==1.5.2", "boto3","seaborn", "matplotlib"],
-    "pip_packages": ["ibm-aigov-facts-client==1.0.60","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
+    "pip_packages": ["ibm-aigov-facts-client==1.0.70","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
     "inference_py_version": "3.9",
     "train_module": "train_cc_xg_boost",
     "train_method": "train_wml"

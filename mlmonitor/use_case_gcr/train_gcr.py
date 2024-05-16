@@ -154,6 +154,7 @@ def save_fs_model(
     tags: dict = {},
     params: dict = {},
     metrics: dict = {},
+    grc_model_name: Optional[str] = None,
 ):
     external_schemas = None
     runs = facts_client.runs.list_runs_by_experiment(experiment_id)
@@ -179,23 +180,35 @@ def save_fs_model(
 
     trainingdataref = TrainingDataReference(schema=tdataref) if tdataref else None
 
-    fs_model = facts_client.external_model_facts.save_external_model_asset(
-        model_identifier=experiment_name,
-        name=experiment_name,
-        schemas=external_schemas,
-        training_data_reference=trainingdataref,
-        description="Scikit Credit Risk model",
-    )
-
-    muc_utilities = facts_client.assets.get_model_usecase(
-        model_usecase_id=model_entry_id,
+    muc_utilities = facts_client.assets.get_ai_usecase(
+        ai_usecase_id=model_entry_id,
         catalog_id=catalog_id,
     )
 
+    grc_model = None
+    if grc_model_name:
+        grc_models = [
+            grc_model
+            for grc_model in muc_utilities.get_grc_models()
+            if grc_model.get("GrcModel").get("name") == grc_model_name
+        ]
+        grc_model = grc_models[0] if len(grc_models) == 1 else None
+    logger.info(f"GRC Model ID [{grc_model}]")
+
+    fs_model = facts_client.external_model_facts.save_external_model_asset(
+        model_identifier=experiment_name,
+        catalog_id=catalog_id,
+        name=experiment_name,
+        schemas=external_schemas,
+        training_data_reference=trainingdataref,
+        description="External Model from Azure",
+    )
+
     fs_model.track(
-        model_usecase=muc_utilities,
+        usecase=muc_utilities,
         approach=muc_utilities.get_approaches()[0],
         version_number="minor",  # "0.1.0"
+        grc_model=grc_model,
     )
 
 
@@ -256,13 +269,11 @@ def train_wml(
     :return: path to the model artifact produced
     """
     train_data = fetch_dataset(data_path=data_path)
-    model_data = train(
+    return train(
         model_dir=os.path.join(model_dir, "model_gcr"),
         train_data=train_data,
         logger=logger,
     )
-
-    return model_data
 
 
 def train(
@@ -368,7 +379,7 @@ if __name__ == "__main__":
     parser.add_argument("--cp4d-username", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--cp4d-url", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--model-name", type=str, default="gcr-model")
-
+    parser.add_argument("--grc-model-name", type=str, default=None)
     # Training Job specific arguments (Sagemaker,Azure,WML) default SageMaker envar or Azure expected values
     parser.add_argument("--model-dir", type=str, default=os.getenv("SM_MODEL_DIR", "./outputs"))
     parser.add_argument("--output-data-dir", type=str, default=os.getenv("SM_OUTPUT_DATA_DIR", "./outputs"))
@@ -411,4 +422,5 @@ if __name__ == "__main__":
         experiment_name=EXPERIMENT_NAME,
         tags=tags,
         params=params,
+        grc_model_name=parameters.get("grc_model_name"),
     )
