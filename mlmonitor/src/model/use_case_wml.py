@@ -363,10 +363,21 @@ class WMLModelUseCase(ModelUseCase):
             catalog_id=self.catalog_id,
         )
 
+        grc_model = None
+        if self.grc_model_name:
+            grc_models = [
+                grc_model
+                for grc_model in muc_utilities.get_grc_models()
+                if grc_model.get("GrcModel").get("name") == self.grc_model_name
+            ]
+            grc_model = grc_models[0] if len(grc_models) == 1 else None
+        logger.info(f"GRC Model ID [{grc_model}]")
+
         wml_model.track(
             usecase=muc_utilities,
             approach=muc_utilities.get_approaches()[0],
             version_number="minor",  # "0.1.0"
+            grc_model=grc_model,
         )
 
     def deploy(self):

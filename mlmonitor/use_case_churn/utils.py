@@ -40,6 +40,7 @@ def _parse_args():
     parser.add_argument("--cp4d-username", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--cp4d-url", type=str, default=None)  # used by train_sagemaker_job,train_az_ml_job
     parser.add_argument("--model-name", type=str, default="xgboost-model")
+    parser.add_argument("--grc-model-name", type=str, default=None)
 
     # Training Job specific arguments (Sagemaker,Azure,WML) default SageMaker envar or Azure expected values
     parser.add_argument("--model-dir", type=str, default=os.getenv("SM_MODEL_DIR", "./outputs"))
