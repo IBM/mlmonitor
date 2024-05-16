@@ -1,2 +1,2 @@
 ipython==8.12.0
-ibm-aigov-facts-client==1.0.70
+ibm-aigov-facts-client==1.0.73

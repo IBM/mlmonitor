@@ -156,7 +156,7 @@
 		"description" : "Customer Churn prediction - monitored in WOS",
 		"tags" : {"data": "customer churn", "method": "xgboost"},
 		"conda_packages": ["pandas==1.5.2", "boto3","seaborn", "matplotlib"],
-		"pip_packages": ["ibm-aigov-facts-client==1.0.70","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
+		"pip_packages": ["ibm-aigov-facts-client==1.0.73","xgboost==1.6.1","scikit-learn==1.0.1","ibm_watson_openscale==3.0.27" ,"pygit2"],
 		"inference_py_version": "3.9",
 		"train_module": "train_cc_xg_boost",
 		"train_method": "train_wml"

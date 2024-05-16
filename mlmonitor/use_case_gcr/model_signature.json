@@ -89,7 +89,7 @@
 		"description" : "Predict Credit Risk proba - monitored in WOS",
 		"tags" : {"data": "credit risk", "method": "sklearn"},
 		"conda_packages": ["scikit-learn==1.0.2", "pandas==1.5.2","joblib==1.2.0","numpy==1.23.5"],
-		"pip_packages": ["ibm-aigov-facts-client==1.0.70"],
+		"pip_packages": ["ibm-aigov-facts-client==1.0.73"],
 		"inference_py_version": "3.9",
 		"train_module": "train_gcr",
 		"train_method": "train_wml"
