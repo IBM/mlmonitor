@@ -219,7 +219,11 @@ def monitor_model(
             logger.info(f"Deleted existing subscription for model {deployment_uid}")
 
     if deployment_target == "aws":
-        model_asset_details = model_asset_details["resources"][0]
+        model_asset_details = [
+            x
+            for x in model_asset_details.get("resources")
+            if x.get("metadata").get("guid") == deployment_uid
+        ][0]
 
     # !TODO ask #openScale-support why prediction_field should be unset for wml : multiclass classification ?
     # explainability not working for WML on unstructured_image if prediction_field is set  `scoring_prediction` field expected

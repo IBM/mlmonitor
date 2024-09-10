@@ -24,6 +24,7 @@ def add_aws_deployment_details(
         DeploymentDetails,
         CloudPakforDataConfig,
     )
+    from ibm_aigov_facts_client.utils.client_errors import ClientError
 
     sagemaker_session = sagemaker.Session(session)
     endpoint_data = sagemaker_session.sagemaker_client.describe_endpoint(
@@ -103,9 +104,11 @@ def add_aws_deployment_details(
         ai_usecase_id=model_entry_id,
         catalog_id=catalog_id,
     )
-
-    fs_model.track(
-        usecase=muc_utilities,
-        approach=muc_utilities.get_approaches()[0],
-        version_number="minor",  # "0.1.0"
-    )
+    try:
+        fs_model.track(
+            usecase=muc_utilities,
+            approach=muc_utilities.get_approaches()[0],
+            version_number="minor",  # "0.1.0"
+        )
+    except ClientError as e:  # noqa F841 error is already being tracked
+        pass

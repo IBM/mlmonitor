@@ -26,6 +26,7 @@ from ibm_aigov_facts_client import (
     TrainingDataReference,
     CloudPakforDataConfig,
 )
+from ibm_aigov_facts_client.utils.client_errors import ClientError
 
 numpy.set_printoptions(threshold=sys.maxsize)
 
@@ -203,13 +204,15 @@ def save_fs_model(
         training_data_reference=trainingdataref,
         description="External Model from Azure",
     )
-
-    fs_model.track(
-        usecase=muc_utilities,
-        approach=muc_utilities.get_approaches()[0],
-        version_number="minor",  # "0.1.0"
-        grc_model=grc_model,
-    )
+    try:
+        fs_model.track(
+            usecase=muc_utilities,
+            approach=muc_utilities.get_approaches()[0],
+            version_number="minor",  # "0.1.0"
+            grc_model=grc_model,
+        )
+    except ClientError as e:
+        logger.error(f"fs_model.track ClientError {e}")
 
 
 def fetch_dataset(data_path: str, filename: str = "training.csv") -> pd.DataFrame:

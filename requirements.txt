@@ -1,5 +1,5 @@
-ibm_watson_openscale
-ibm-watson-machine-learning==1.0.327
+ibm_watson_openscale==3.0.40
+ibm-watson-machine-learning==1.0.360
 ipython==8.14.0
-ibm-aigov-facts-client==1.0.73
+ibm-aigov-facts-client==1.0.80
 pygit2
