@@ -3,7 +3,7 @@ import os
 import joblib
 import re
 
-from ibm_watson_machine_learning import APIClient
+from ibm_watsonx_ai import APIClient
 from mlmonitor.src.wml import wml_client as WML_CLIENT, WML_SPACE_ID
 from mlmonitor.src import API_KEY, logger, DATA_ROOT
 from mlmonitor.src.utils.validation import validate_hdf_file, is_csv

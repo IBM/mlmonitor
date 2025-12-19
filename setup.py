@@ -76,7 +76,7 @@ setup(
         "dev": requirements(path=current_directory, postfix="dev"),
         "azure": ["azureml-sdk==1.61.0"],
         "sagemaker": ["sagemaker==3.1.1"],
-        "drift": ["ibm-wos-utils==5.3.0.10"],
+        "drift": ["ibm-wos-utils"],
     },
     python_requires=f">={MINIMUM_PYTHON_VERSION}",
     include_package_data=True,

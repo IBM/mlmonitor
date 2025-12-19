@@ -2,7 +2,7 @@
 import json
 import importlib
 import ibm_watson_openscale
-import ibm_watson_machine_learning
+import ibm_watsonx_ai
 
 from mlmonitor.src.wos.data_mart import get_datamart_ids
 from mlmonitor.src import API_KEY, IAM_URL, logger
@@ -22,7 +22,7 @@ from mlmonitor.src.wos.integated_system import create_integrated_system
 
 def configure_custom_monitor(
     wos_client: ibm_watson_openscale.APIClient,
-    wml_client: ibm_watson_machine_learning.APIClient,
+    wml_client: ibm_watsonx_ai.APIClient,
     monitored_model: str,
     deployment_name: str,
     provider_name: str,
