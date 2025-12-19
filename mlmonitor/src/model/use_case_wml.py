@@ -540,8 +540,14 @@ class WMLModelUseCase(ModelUseCase):
                 model_uid=self.model_uid
             )
             self._model_config.class_label = model_details
-            self._model_config.inference_instance = (
-                model_details.get("entity").get("software_spec").get("name")
+            software_spec_id = (
+                model_details.get("entity").get("software_spec").get("id")
+            )
+            software_spec = wml_client.software_specifications.get_details(
+                software_spec_id
+            )
+            self._model_config.inference_instance = software_spec.get("metadata").get(
+                "name"
             )
             runtime, version = model_details.get("entity").get("type").split("_")
             self._model_config.inference_framework = runtime
