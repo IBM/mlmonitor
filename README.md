@@ -78,18 +78,19 @@ pip install mlmonitor[local]
 
 * if you need to configure drift monitors add `drift` extra requirement to the install command [drift]
 
-**Note:** The drift extra installs [`ibm-wos-utils`](https://pypi.org/project/ibm-wos-utils/) which has specific version requirements depending on your IBM watsonx.governance or Watson OpenScale environment:
-
-- Cloud (SaaS)**: Install `ibm-wos-utils` version `3.0.*`. Drift and Drift v2 Archives generation requires `scikit-learn v1.3.2`.
-- Cloud Pak for Data 5.0.x**: Install `ibm-wos-utils` version `5.0.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
-- Cloud Pak for Data 4.8.x**: Install `ibm-wos-utils` version `4.8.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
-
 * if you need to onboard a SageMaker model add `sagemaker` extra requirement to the install command [sagemaker]
 
 * if you need to onboard an Azure model monitor add `azure` extra requirement to the install command [azure]
 
 **Note :** this will install `azureml-sdk` on your environment
 it is possible to add several extra requirements at once e.g [local,drift]
+
+
+**Note:** The drift extra installs [`ibm-wos-utils`](https://pypi.org/project/ibm-wos-utils/) which has specific version requirements depending on your IBM watsonx.governance or Watson OpenScale environment:
+
+- Cloud (SaaS)**: Install `ibm-wos-utils` version `3.0.*`. Drift and Drift v2 Archives generation requires `scikit-learn v1.3.2`.
+- Cloud Pak for Data 5.0.x**: Install `ibm-wos-utils` version `5.0.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
+- Cloud Pak for Data 4.8.x**: Install `ibm-wos-utils` version `4.8.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
 
 
 ## 6. *mlmonitor* - notebook examples (run from local code)
