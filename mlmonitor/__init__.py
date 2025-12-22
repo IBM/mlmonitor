@@ -36,7 +36,7 @@ try:
     from mlmonitor.src.model.use_case_aws import SageMakerModelUseCase  # noqa: F401
 
     supported_uc.append("SageMakerModelUseCase")
-except ModuleNotFoundError:
+except ModuleNotFoundError as e:
     print("run pip install mlmonitor[sagemaker] to use SageMakerModelUseCase")
 
 try:

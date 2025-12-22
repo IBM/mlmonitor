@@ -55,15 +55,15 @@
 	},
 	"aws_runtime": {
 		"train_script": "train_gcr.py",
-		"train_py_version": "py3",
+		"train_py_version": "py310",
 		"inference_script": "inference_aws_gcr.py",
 		"train_framework": "sklearn",
-		"train_framework_version": "1.0-1",
+		"train_framework_version": "1.4-2",
 		"inference_framework": "sklearn",
-		"inference_framework_version": "1.0-1",
+		"inference_framework_version": "1.4-2",
 		"train_instance": "ml.m4.xlarge",
 		"inference_instance": "ml.m4.xlarge",
-		"inference_py_version": "py3",
+		"inference_py_version": "py310",
 		"prefix": "gcr",
 		"job_name": "sm-gcr-scikit",
 		"serializer": "json",
@@ -72,9 +72,9 @@
 	"wml_runtime": {
 		"train_module": "train_gcr",
 		"train_method": "train_wml",
-		"inference_instance": "runtime-23.1-py3.10",
+		"inference_instance": "runtime-24.1-py3.11",
 		"inference_framework": "scikit-learn",
-		"inference_framework_version": "1.1",
+		"inference_framework_version": "1.3",
 		"inference_script": "inference_aws_gcr.py"
 	},
 	"azure_runtime": {
@@ -89,7 +89,7 @@
 		"description" : "Predict Credit Risk proba - monitored in WOS",
 		"tags" : {"data": "credit risk", "method": "sklearn"},
 		"conda_packages": ["scikit-learn==1.0.2", "pandas==1.5.2","joblib==1.2.0","numpy==1.23.5"],
-		"pip_packages": ["ibm-aigov-facts-client==1.0.73"],
+		"pip_packages": ["ibm-aigov-facts-client==1.0.207"],
 		"inference_py_version": "3.9",
 		"train_module": "train_gcr",
 		"train_method": "train_wml"

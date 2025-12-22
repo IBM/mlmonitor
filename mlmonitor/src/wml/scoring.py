@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 import time
-from ibm_watson_machine_learning import APIClient
+from ibm_watsonx_ai import APIClient
 from typing import Optional
 
 from mlmonitor.src import logger
