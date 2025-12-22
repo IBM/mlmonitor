@@ -53,7 +53,7 @@ def init_logger(level: int = logging.INFO) -> logging.Logger:
 
 def init_external_fs_client(logger, **params) -> tuple:
     """
-    initializes the AIGovFactsClient object for AI Factseets for external model and returns a tuple of instantiated objects.
+    initializes the AIGovFactsClient object for AI Factsheets for external model and returns a tuple of instantiated objects.
 
      fs_tags : Factsheets tags specific to Sagemaker container where training job is running
      fs_params : Factsheets parameters specific to Sagemaker container where training job is running

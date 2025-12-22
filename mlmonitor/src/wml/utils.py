@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-from ibm_watson_machine_learning import APIClient
+from ibm_watsonx_ai import APIClient
 from typing import Optional
 
 

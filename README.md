@@ -82,8 +82,19 @@ pip install mlmonitor[local]
 
 * if you need to onboard an Azure model monitor add `azure` extra requirement to the install command [azure]
 
-**Note :** this will install `azureml-sdk` on your environment
-it is possible to add several extra requirements at once e.g [local,drift]
+**Note:** this will install `azureml-sdk` on your environment. It is possible to add several extra requirements at once e.g [local,drift]
+
+**Note:** If you need to configure drift monitors, an additional installation of `ibm-wos-utils` with the proper version is required depending on your environment.
+
+The drift extra installs [`ibm-wos-utils`](https://pypi.org/project/ibm-wos-utils/) which has specific version requirements:
+
+- **Cloud (SaaS)**: Install `ibm-wos-utils` version `3.0.*`. Drift and Drift v2 Archives generation requires `scikit-learn v1.3.2`.
+- **Cloud Pak for Data 5.0.x**: Install `ibm-wos-utils` version `5.0.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
+- **Cloud Pak for Data 4.8.x**: Install `ibm-wos-utils` version `4.8.*`. Drift v1 Archive generation requires `scikit-learn v1.1.1`.
+
+**Important:** When running from a CP4D notebook, use **Runtime 24.1 with Python 3.11** as `ibm-wos-utils` supports Python 3.10 and 3.11. The Dockerfile also uses Python 3.11 for compatibility.
+
+**Important:**  All drift monitors Drift and Drift v2 can be configured from OpenScale UI.
 
 
 ## 6. *mlmonitor* - notebook examples (run from local code)
@@ -93,6 +104,9 @@ This section helps you to run mlmonitor from this repo by running notebook examp
 - [WML notebook](./examples/mlmonitor-wml.ipynb)
 - [SageMaker notebook](./examples/mlmonitor-sagemaker.ipynb)
 - [Azure notebook](./examples/mlmonitor-azure.ipynb)
+
+**Note:** If you need to configure drift monitors, an additional installation of `ibm-wos-utils` with the proper version is required depending on your environment. See section 5 for version requirements based on your IBM watsonx.governance or Watson OpenScale environment.
+
 
 ## 7. *mlmonitor* - test container
 

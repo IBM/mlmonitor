@@ -74,9 +74,9 @@ setup(
     extras_require={
         "local": requirements(path=current_directory, postfix="local"),
         "dev": requirements(path=current_directory, postfix="dev"),
-        "azure": ["azureml-sdk==1.56.0"],
-        "sagemaker": ["sagemaker==2.206.0"],
-        "drift": ["ibm-wos-utils==4.7.0.14"],
+        "azure": ["azureml-sdk==1.61.0"],
+        "sagemaker": ["sagemaker==2.255.0"],
+        "drift": ["ibm-wos-utils==5.3.0.10"],
     },
     python_requires=f">={MINIMUM_PYTHON_VERSION}",
     include_package_data=True,

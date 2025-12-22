@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-import ibm_watson_machine_learning
+import ibm_watsonx_ai
 import json
 from typing import Callable
 
@@ -11,9 +11,9 @@ def deploy_custom_metrics_provider(
     deployment_name: str,
     python_function_name: str,
     function_code: Callable,
-    wml_client: ibm_watson_machine_learning.APIClient = wml_client,
+    wml_client: ibm_watsonx_ai.APIClient = wml_client,
     wml_space_id: str = WML_SPACE_ID,
-    runtime: str = "runtime-23.1-py3.10",
+    runtime: str = "runtime-24.1-py3.11",
     hardware_specifications: str = "S",
 ) -> str:
     """
