@@ -4,7 +4,6 @@ from sagemaker.xgboost import XGBoostModel  # , XGBoost
 from sagemaker.tensorflow import TensorFlowModel, TensorFlow
 from sagemaker.pytorch import PyTorchModel, PyTorch
 from sagemaker.estimator import Estimator
-
 from sagemaker.deserializers import CSVDeserializer
 from sagemaker.serializers import CSVSerializer
 from sagemaker.deserializers import JSONDeserializer
