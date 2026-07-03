@@ -61,6 +61,7 @@ def deploy_az_model(
     cluster_name: Optional[str] = None,
     auth_enabled: bool = False,
     deploy_config_params: Optional[Dict] = None,
+    python_version: str = "3.10",
 ) -> Union[AksWebservice, AciWebservice]:
     """Deploy the given model from to AKS or ACI depending on compute_type parameter
 
@@ -75,6 +76,7 @@ def deploy_az_model(
     :param auth_enabled:bool Activate authentication
     :param cluster_name:Optional[str] Cluster name
     :param deploy_config_params:Optional[Dict] deployment config parameters
+    :param python_version:str python version for the inference environment
 
     :return: webservice object
     """
@@ -84,6 +86,7 @@ def deploy_az_model(
         environ_name=environ_name,
         conda_packages=conda_packages,
         entry_script=entry_script,
+        python_version=python_version,
     )
 
     if not deploy_config_params:
@@ -331,10 +334,11 @@ def get_deploy_facts(
         # "compute_name": ws.compute_name,
         "compute_type": ws.compute_type,
     }
-    metrics = {"created_time": ws.created_time.strftime("%m/%d/%Y %H:%M:%S")}
+    metrics = {}
     tags = {
         "scoring_url": ws.scoring_uri,
         "model_id": model.id,
+        "created_time": ws.created_time.strftime("%m/%d/%Y %H:%M:%S"),
         # "sklearn_version": sklearn_version,
     }
 

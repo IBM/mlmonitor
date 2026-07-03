@@ -3,3 +3,4 @@ ibm_watsonx_ai==1.4.11
 ipython==9.8.0
 ibm-aigov-facts-client==1.0.102
 pygit2
+setuptools<=70

@@ -473,6 +473,7 @@ class AzureModelUseCase(ModelUseCase):
                     conda_packages=self._model_config.conda_packages,
                     redeploy=False,
                     deploy_config_params=deploy_config_params,
+                    python_version=self._model_config.inference_py_version,
                 )
             else:
                 logger.warning(

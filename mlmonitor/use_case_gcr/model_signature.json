@@ -79,7 +79,7 @@
 	},
 	"azure_runtime": {
 		"train_script": "train_gcr.py",
-		"train_py_version": "3.9",
+		"train_py_version": "3.10",
 		"inference_script": "inference_azure_gcr.py",
 		"inference_compute": "aks",
 		"aks_cluster_name": "my-aks-cluster",
@@ -89,8 +89,8 @@
 		"description" : "Predict Credit Risk proba - monitored in WOS",
 		"tags" : {"data": "credit risk", "method": "sklearn"},
 		"conda_packages": ["scikit-learn==1.0.2", "pandas==1.5.2","joblib==1.2.0","numpy==1.23.5"],
-		"pip_packages": ["ibm-aigov-facts-client==1.0.102"],
-		"inference_py_version": "3.9",
+		"pip_packages": ["ibm-aigov-facts-client==1.0.102", "setuptools<=70"],
+		"inference_py_version": "3.10",
 		"train_module": "train_gcr",
 		"train_method": "train_wml"
 	},
