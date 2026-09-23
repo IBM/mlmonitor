@@ -5,9 +5,11 @@ import re
 
 from mlmonitor.src import logger
 
-# Regex: 32 characters separated by - following xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx
+# Regex: 32 characters separated by - following xxxxxxxx-xxxx-Vxxx-xxxx-xxxxxxxxxxxx
+# where V is the UUID version nibble. CP4D/WKC issues both UUIDv4 (legacy) and
+# UUIDv7 (CP4D 5.2+, time-ordered) identifiers for catalog/model entry ids.
 _UUID4_REGEX = re.compile(
-    r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
 )
 
 
