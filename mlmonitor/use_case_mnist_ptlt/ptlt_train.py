@@ -94,7 +94,7 @@ def train(arguments):
     # TrainingDataReference
     # tdataref = TrainingDataReference(schema=training_ref)
     trainer.fit(model)
-    trainer.test()
+    trainer.test(model)
     end = time.time()
     save_model(model=model, model_dir=arguments.get("model_dir"))
     trainer.save_checkpoint(

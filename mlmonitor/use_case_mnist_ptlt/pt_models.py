@@ -189,7 +189,7 @@ class PytorchLightningMNIST(pl.LightningModule):
             nn.Linear(self.hidden_size, self.num_classes),
         )
 
-        self.accuracy = Accuracy()
+        self.accuracy = Accuracy(task="multiclass", num_classes=self.num_classes)
 
     def forward(self, x):
         x = self.model(x)
