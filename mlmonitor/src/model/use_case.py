@@ -131,12 +131,11 @@ class ModelUseCase(ABC):
         """
         if value:
             value = value.strip('"')
-            if validate_uuid4(value):
-                self._catalog_id = value
-            else:
+            if not validate_uuid4(value):
                 logger.warning("catalog_id should be be valid identifier")
         else:
             logger.warning("catalog_id cannot be None")
+        self._catalog_id = value
 
     @property
     def model_entry_id(self) -> str:
@@ -152,12 +151,11 @@ class ModelUseCase(ABC):
         """
         if value:
             value = value.strip('"')
-            if validate_uuid4(value):
-                self._model_entry_id = value
-            else:
+            if not validate_uuid4(value):
                 logger.warning("model_entry_id should be be valid identifier")
         else:
             logger.warning("model_entry_id cannot be None")
+        self._model_entry_id = value
 
     @property
     def is_trained(self) -> bool:
@@ -947,14 +945,14 @@ class ModelUseCase(ABC):
     def _create_custom_monitor_sw_specification(
         pkg_extn_uid: str,
         sw_spec_name: str,
-        base_sw_spec: str = "runtime-24.1-py3.11",
+        base_sw_spec: str = "runtime-25.1-py3.12",
     ) -> str:
         """
         creates a software specification for the custom monitor that will be used to deploy custom metrics provider in WML.
 
         :param pkg_extn_uid:str: package extension that is used to create the custom metrics provider python function and deployment
         :param sw_spec_name:str: unique name for the software specification
-        :param base_sw_spec:str=runtime-24.1-py3.11: Specify the base software specification to use as a starting point
+        :param base_sw_spec:str=runtime-25.1-py3.12: Specify the base software specification to use as a starting point
         :return: software specification uid after creation
         """
 

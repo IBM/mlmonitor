@@ -68,7 +68,7 @@ if __name__ == "__main__":
         tags,
         params,
     ) = init_external_fs_client(logger=logger, **parameters)
-    logger.debug(f"test_train parameters:\n{json.dumps(parameters,indent=4)}")
+    logger.debug(f"test_train parameters:\n{json.dumps(parameters, indent=4)}")
 
     logger.info(f"train {os.listdir(parameters.get('train'))}")
     train_data = fetch_dataset(data_path=parameters.get("train"))

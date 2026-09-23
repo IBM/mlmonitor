@@ -13,7 +13,7 @@ def deploy_custom_metrics_provider(
     function_code: Callable,
     wml_client: ibm_watsonx_ai.APIClient = wml_client,
     wml_space_id: str = WML_SPACE_ID,
-    runtime: str = "runtime-24.1-py3.11",
+    runtime: str = "runtime-25.1-py3.12",
     hardware_specifications: str = "S",
 ) -> str:
     """

@@ -46,7 +46,7 @@ def collect_alerts(
     existing_monitors = get_exising_monitors(
         wos_client=wos_client, subscription_id=subscription_id
     )
-    logger.debug(f"existing monitors\n{json.dumps(existing_monitors,indent=4)}")
+    logger.debug(f"existing monitors\n{json.dumps(existing_monitors, indent=4)}")
 
     current_time = datetime.now()
     for monitor_type in monitor_types:
@@ -69,7 +69,7 @@ def collect_alerts(
             print(metrics.result.to_dict())
 
             logging.debug(
-                f"metrics_count \n{json.dumps(metrics_count.result.to_dict(),indent=4)}"
+                f"metrics_count \n{json.dumps(metrics_count.result.to_dict(), indent=4)}"
             )
 
 
