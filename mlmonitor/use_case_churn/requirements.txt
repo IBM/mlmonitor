@@ -7,4 +7,4 @@ matplotlib
 pygit2
 boto3
 ibm_watson_openscale==3.0.27
-scikit-learn==1.0.1
+scikit-learn==1.5.0
