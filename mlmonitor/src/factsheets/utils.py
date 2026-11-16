@@ -101,7 +101,7 @@ class FactsheetHelpers:
             }
             return True, headers, ""
         else:
-            print(token_response.text)
+            print(f"authentication failed with status {token_response.status_code}")
             return False, None, token_response.text
 
     def define_custom_model_facts(self, csv_file_name):

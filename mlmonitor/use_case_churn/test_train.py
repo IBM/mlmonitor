@@ -18,7 +18,8 @@ PROJECT_ROOT = dirname(dirname(__file__))
 
 
 def make_model_tgzfile(output_filename: str, source_dir: str):
-    temp_unzipped_dir = tempfile.mktemp()
+    fd, temp_unzipped_dir = tempfile.mkstemp(suffix=".tar")
+    os.close(fd)
     current_dir = os.path.abspath(os.getcwd())
     assert os.path.exists(source_dir)
     os.chdir(source_dir)

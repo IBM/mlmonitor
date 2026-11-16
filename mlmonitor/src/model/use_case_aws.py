@@ -138,7 +138,7 @@ class SageMakerModelUseCase(ModelUseCase):
                 logger=logger,
             )
         else:
-            logger.info(f"secret name {self.sm_secret_name} exists")
+            logger.info("Secrets Manager secret already exists, updating it")
             sm_update(
                 client=client,
                 secret_name=self.sm_secret_name,
