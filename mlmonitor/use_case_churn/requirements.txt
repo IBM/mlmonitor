@@ -1,4 +1,4 @@
-protobuf==3.20.2
+protobuf==5.29.6
 xgboost==1.5.1
 ipython
 ibm-aigov-facts-client==1.0.102
