@@ -20,7 +20,6 @@ class Env:
         os.environ["SM_HOSTS"] = '["algo-1"]'
         os.environ["SM_CURRENT_HOST"] = "algo-1"
         os.environ["SM_NUM_GPUS"] = "0"
-        print(os.environ["AWS_SECRET_ACCESS_KEY"])
 
 
 if __name__ == "__main__":

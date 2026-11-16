@@ -6,6 +6,11 @@ import boto3
 from typing import Tuple
 
 
+def _error_code(e: ClientError) -> str:
+    """Return only the AWS error code so secret identifiers are never logged."""
+    return e.response.get("Error", {}).get("Code", "Unknown")
+
+
 def sm_secret_name_exists(
     client: boto3.client, secret_name: str, logger: Logger
 ) -> bool:
@@ -20,7 +25,7 @@ def sm_secret_name_exists(
     try:
         client.get_secret_value(SecretId=secret_name)
     except ClientError:
-        logger.info(f"secret [{secret_name}] does not exist in Secrets Manager")
+        logger.info("requested secret does not exist in Secrets Manager")
         return False
     return True
 
@@ -46,7 +51,7 @@ def sm_create(
     """
     secret_string = json.dumps({secret_key_name: secret_key_value})
     client.create_secret(Name=secret_name, SecretString=secret_string)
-    logger.info(f"Created secret [{secret_name}] - secret key [{secret_key_name}]")
+    logger.info("Created secret in Secrets Manager")
 
 
 def sm_secret_key_name_exists(
@@ -71,7 +76,9 @@ def sm_secret_key_name_exists(
     try:
         response = client.get_secret_value(SecretId=secret_name)
     except ClientError as e:
-        logger.error(f"secret name `{secret_name}` secret : {e}")
+        logger.error(
+            f"failed to retrieve secret from Secrets Manager: {_error_code(e)}"
+        )
         return False, False
 
     if "SecretString" in response:
@@ -107,13 +114,9 @@ def sm_update(
     if "SecretString" in response:
         secret_strings = json.loads(response.get("SecretString"))
         if secret_key_name in secret_strings:
-            logger.warning(
-                f"Updating secret [{secret_name}] - secret key [{secret_key_name}]"
-            )
+            logger.warning("Updating existing key in Secrets Manager secret")
         else:
-            logger.warning(
-                f"Adding secret [{secret_name}] - secret key [{secret_key_name}]"
-            )
+            logger.warning("Adding new key to Secrets Manager secret")
 
         secret_strings[secret_key_name] = secret_key_value
         client.put_secret_value(
@@ -145,6 +148,6 @@ def sm_delete(
         client.delete_secret(
             SecretId=secret_name, ForceDeleteWithoutRecovery=without_recovery
         )
-        logger.info(f"Deleted secret {secret_name} without_recovery {without_recovery}")
+        logger.info(f"Deleted secret (without_recovery={without_recovery})")
     except ClientError as e:
-        logger.error(f"error deleting secret name `{secret_name}` secret : {e}")
+        logger.error(f"error deleting secret: {_error_code(e)}")
